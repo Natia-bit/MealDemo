@@ -1,3 +1,4 @@
+-- RAW DATA : MEALS
 INSERT INTO meals (meal_name, category)
     VALUES
     ('Chicken pie', 'Chicken'),
@@ -7,3 +8,6 @@ INSERT INTO meals (meal_name, category)
     ('Chicken fried rice', 'Chicken'),
     ('Chicken with pesto and parmeham', 'Chicken'),
     ('Dijon Chicken', 'Chicken');
+       
+-- RAW DATA: FREQUENCY
+INSERT INTO frequency (meal_id) SELECT id FROM meals; 

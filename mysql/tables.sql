@@ -1,5 +1,9 @@
+--DROP TABLES
+DROP TABLE IF EXISTS frequency;
 DROP TABLE IF EXISTS meals;
 
+
+-- CREATE TABLES
 CREATE TABLE meals (
     id INTEGER NOT NULL AUTO_INCREMENT,
     meal_name VARCHAR(255) NOT NULL,
@@ -7,11 +11,9 @@ CREATE TABLE meals (
     PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS frequency;
-
 CREATE TABLE frequency (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    times_used INTEGER,
+    times_used INTEGER DEFAULT 0,
     meal_id INT NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(meal_id) REFERENCES meals(id)
