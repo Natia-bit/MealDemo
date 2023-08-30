@@ -10,4 +10,6 @@ public class MealDemoApplication {
 		SpringApplication.run(MealDemoApplication.class, args);
 	}
 
+
+
 }

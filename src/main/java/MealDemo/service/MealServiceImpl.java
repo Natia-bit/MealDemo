@@ -19,7 +19,6 @@ public class MealServiceImpl implements MealService{
     }
 
     // CRUD METHODS
-
     @Override
     public List<Meals> findAll() {
         return mealRepository.findAll();
