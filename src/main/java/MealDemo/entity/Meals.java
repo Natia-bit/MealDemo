@@ -17,6 +17,9 @@ public class Meals {
     @Column(name="category")
     private String category;
 
+    @OneToOne(mappedBy = "frequency")
+    private Frequency frequency;
+
     //CONSTRUCTORS
     public Meals() {
     }
@@ -51,6 +54,13 @@ public class Meals {
         this.category = category;
     }
 
+    public Frequency getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Frequency frequency) {
+        this.frequency = frequency;
+    }
 
     //TO STRING
 
@@ -60,6 +70,7 @@ public class Meals {
                 "id=" + id +
                 ", mealName='" + mealName + '\'' +
                 ", category='" + category + '\'' +
+                ", frequency=" + frequency +
                 '}';
     }
 }
