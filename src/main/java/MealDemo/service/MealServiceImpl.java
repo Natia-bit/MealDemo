@@ -26,8 +26,18 @@ public class MealServiceImpl implements MealService{
     }
 
     @Override
-    public Optional<Meals> findById(int theID) {
-        return mealRepository.findById(theID);
+    public Meals findById(int theID) {
+       Optional<Meals> result = mealRepository.findById(theID);
+
+       Meals meal = null;
+
+       if (result.isPresent()){
+           meal = result.get();
+       } else {
+           throw new RuntimeException("didnt find meal no " + theID);
+       }
+
+       return meal;
     }
 
     @Override

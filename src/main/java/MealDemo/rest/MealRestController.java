@@ -1,11 +1,11 @@
 package MealDemo.rest;
 
+import MealDemo.dao.AppDAO;
 import MealDemo.entity.Meals;
 import MealDemo.service.MealService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/home")
@@ -13,6 +13,7 @@ public class MealRestController {
 
     //FIELD
     private MealService mealService;
+    private AppDAO appDAO;
 
     // CONSTRUCTOR
     public MealRestController(MealService mealService) {
@@ -26,6 +27,16 @@ public class MealRestController {
         return mealService.findAll();
     }
 
+    @GetMapping("/meals/{mealId}")
+    public Meals findById(@PathVariable int mealId){
+        Meals meal = mealService.findById(mealId);
+
+        if (meal == null){
+            throw new RuntimeException("Meal ID not found");
+        }
+       return meal;
+    }
+
     // ADD MEALS
     @PostMapping("/meals")
     public Meals addMeal(@RequestBody Meals meal){
@@ -36,6 +47,7 @@ public class MealRestController {
         return mealService.save(meal);
     }
 
+
     // UPDATE MEALS (BY ID)
     @PutMapping("/meals")
     public Meals updateMeal(@RequestBody Meals meal){
@@ -45,9 +57,9 @@ public class MealRestController {
     // DELETE MEALS (BY ID)
     @DeleteMapping("/meals/{mealId}")
     public String deleteMeal(@PathVariable int mealID){
-        Optional tempMeal = mealService.findById(mealID);
+        Meals tempMeal = mealService.findById(mealID);
 
-        if (tempMeal.isEmpty()){
+        if (tempMeal == null){
             throw new RuntimeException("Meal ID not found");
         }
 
@@ -55,5 +67,6 @@ public class MealRestController {
 
         return "Meal ID " + mealID + " is deleted";
     }
+
 
 }
