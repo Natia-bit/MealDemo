@@ -1,6 +1,5 @@
 package MealDemo.rest;
 
-import MealDemo.dao.AppDAO;
 import MealDemo.entity.Meals;
 import MealDemo.service.MealService;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,7 @@ public class MealRestController {
 
     //FIELD
     private MealService mealService;
-    private AppDAO appDAO;
+
 
     // CONSTRUCTOR
     public MealRestController(MealService mealService) {
@@ -48,24 +47,19 @@ public class MealRestController {
     }
 
 
-    // UPDATE MEALS (BY ID)
-    @PutMapping("/meals")
-    public Meals updateMeal(@RequestBody Meals meal){
-        return mealService.save(meal);
-    }
 
     // DELETE MEALS (BY ID)
     @DeleteMapping("/meals/{mealId}")
-    public String deleteMeal(@PathVariable int mealID){
-        Meals tempMeal = mealService.findById(mealID);
+    public String deleteMeal(@PathVariable int mealId){
+        Meals tempMeal = mealService.findById(mealId);
 
         if (tempMeal == null){
             throw new RuntimeException("Meal ID not found");
         }
 
-        mealService.deleteByID(mealID);
+        mealService.deleteByID(mealId);
 
-        return "Meal ID " + mealID + " is deleted";
+        return "Meal ID " + mealId + " is deleted";
     }
 
 

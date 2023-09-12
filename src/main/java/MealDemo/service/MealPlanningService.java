@@ -1,9 +1,9 @@
 package MealDemo.service;
 
-import MealDemo.dao.FrequencyRepository;
-import MealDemo.dao.MealRepository;
 import MealDemo.entity.Frequency;
 import MealDemo.entity.Meals;
+import MealDemo.repository.FrequencyRepository;
+import MealDemo.repository.MealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,38 +13,65 @@ import java.util.Optional;
 @Service
 public class MealPlanningService implements IMealPlanningService {
 
+    // =========== REPOSITORIES ===========
     private MealRepository mealRepository;
     private FrequencyRepository frequencyRepository;
 
+
+    // =========== CONSTRUCTOR ===========
     @Autowired
     public MealPlanningService(MealRepository mealRepository, FrequencyRepository frequencyRepository) {
         this.mealRepository = mealRepository;
         this.frequencyRepository = frequencyRepository;
     }
 
-    // METHODS
-    // see all (including frequency)
+    @Autowired
+    public MealPlanningService(MealRepository mealRepository) {
+        this.mealRepository = mealRepository;
+    }
+
+    @Autowired
+    public MealPlanningService(FrequencyRepository frequencyRepository) {
+        this.frequencyRepository = frequencyRepository;
+    }
+
+    // =========== IMPLEMENTATIONS ===========
+    // VIEW ALL
     @Override
-    public void seeAllMeals(){
+    public void getAllMeals(){
 //        mealRepository.findAll();
         frequencyRepository.findAll();
     }
 
-
+    // GET MEALS & SEQUENCES
     @Override
-    public List<Meals> viewAllMeals() {
+    public List<Meals> getMeals() {
         return mealRepository.findAll();
     }
 
     @Override
-    public List<Frequency> viewAllFreq() {
+    public List<Frequency> getFrequencies() {
         return frequencyRepository.findAll();
     }
 
-    // find by id
-
+    // FIND BY ID
     @Override
-    public Frequency findByTheId(int id) {
+    public Meals findMealById(int id) {
+        Optional<Meals> result = mealRepository.findById(id);
+
+        Meals meal = null;
+        if (result.isPresent()) {
+            meal = result.get();
+        } else {
+            throw new RuntimeException("Meal id not found");
+        }
+
+        return meal;
+    }
+
+    // find by id
+    @Override
+    public Frequency findFreqByTheId(int id) {
 
         Optional <Frequency> result = frequencyRepository.findById(id);
 
@@ -59,10 +86,9 @@ public class MealPlanningService implements IMealPlanningService {
         return frequency;
     }
 
-    // Add new meal and update freq
-
+    // SAVE NEW OR UPDATE
     @Override
-    public Meals addNewMeal(Meals meal) {
+    public Meals saveNewMeal(Meals meal) {
         System.out.println("Saving meal");
         Frequency tempFreq = new Frequency();
         tempFreq.setMeal(meal);
@@ -72,10 +98,24 @@ public class MealPlanningService implements IMealPlanningService {
         return mealRepository.save(meal);
     }
 
+    // DELETE
+    @Override
+    public void deleteMeal(int id) {
+        frequencyRepository.deleteById(id);
+        mealRepository.deleteById(id);
+    }
 
-    // update / edit
 
-    // remove
+    // update
 
 
+    @Override
+    public void updateMeal(int mealId, Meals meal) {
+        Meals existingMeal = mealRepository.getById(mealId);
+
+        System.out.println("Recipe to edit " + existingMeal.getMealName() + " with id " + mealId);
+
+
+
+    }
 }

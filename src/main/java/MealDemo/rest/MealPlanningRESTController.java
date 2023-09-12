@@ -20,24 +20,24 @@ public class MealPlanningRESTController {
 
     @GetMapping("/viewAll")
     public void viewAll(){
-        mealPlanningService.seeAllMeals();
+        mealPlanningService.getAllMeals();
     }
 
     // WORKING :)
     @GetMapping("/viewM")
     public List<Meals> viewAllMeals(){
-        return mealPlanningService.viewAllMeals();
+        return mealPlanningService.getMeals();
     }
 
 
     @GetMapping("/viewF")
     public List<Frequency> viewAllFreq(){
-        return mealPlanningService.viewAllFreq();
+        return mealPlanningService.getFrequencies();
     }
 
     @GetMapping("/meals/{mealId}")
     public Frequency findByMealID(@PathVariable int mealId){
-        Frequency frequency = mealPlanningService.findByTheId(mealId);
+        Frequency frequency = mealPlanningService.findFreqByTheId(mealId);
 
         if (frequency == null){
             throw new RuntimeException("Meal ID not found");
@@ -48,7 +48,31 @@ public class MealPlanningRESTController {
 
     @PostMapping("/meal")
     public Meals addMealsWithFreq(@RequestBody Meals meal){
-        return mealPlanningService.addNewMeal(meal);
+        return mealPlanningService.saveNewMeal(meal);
     }
 
-}
+
+    @DeleteMapping("/meal/{id}")
+    public String deleteMeal (@PathVariable int id){
+        Frequency tempMeal = mealPlanningService.findFreqByTheId(id);
+
+        if (tempMeal == null){
+            throw new RuntimeException(("Meal ID not found"));
+        }
+
+        mealPlanningService.deleteMeal(id);
+
+        return "Meal ID " +tempMeal.getClass().getName() +  id + " is deleted";
+    }
+
+    @PutMapping("/meals/{mealId}")
+    public void updateMeal(@RequestBody Meals theMeal, @PathVariable int mealId){
+        mealPlanningService.updateMeal(mealId, theMeal);
+
+//        Meals dbMeal = mealPlanningService.saveNewMeal(theMeal);
+
+//        return dbMeal;
+    }
+
+    }
+

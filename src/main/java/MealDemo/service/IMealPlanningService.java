@@ -7,13 +7,30 @@ import java.util.List;
 
 public interface IMealPlanningService {
 
-    void seeAllMeals();
-    List<Meals> viewAllMeals();
-    List<Frequency> viewAllFreq();
+    // VIEW ALL
+    void getAllMeals();
 
-    Frequency findByTheId(int id);
+    // VIEW ENTITIES
+    List<Meals> getMeals();
+    List<Frequency> getFrequencies();
 
-    Meals addNewMeal(Meals meal);
+
+    // FIND BY ID
+    Meals findMealById(int id);
+    Frequency findFreqByTheId(int id);
+
+
+    // SAVE NEW (OR UPDATE)
+    Meals saveNewMeal(Meals meal);
+
+    // DELETE
+    void deleteMeal(int id);
+
+
+    //UPDATE
+    void updateMeal(int mealId, Meals meal);
+
+
 
 
 

@@ -21,6 +21,7 @@ public class Meals {
 //    private Frequency frequency;
 
     //CONSTRUCTORS
+
     public Meals() {
     }
 

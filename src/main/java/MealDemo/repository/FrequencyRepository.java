@@ -1,4 +1,4 @@
-package MealDemo.dao;
+package MealDemo.repository;
 
 import MealDemo.entity.Frequency;
 import org.springframework.data.jpa.repository.JpaRepository;
