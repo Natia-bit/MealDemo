@@ -1,7 +1,7 @@
 package MealDemo.service;
 
-import MealDemo.repository.MealRepository;
-import MealDemo.entity.Meals;
+import MealDemo.dao.MealRepository;
+import MealDemo.entity.Meal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +21,18 @@ public class MealServiceImpl implements MealService{
     // CRUD METHODS
 
     @Override
-    public List<Meals> findAll() {
+    public List<Meal> findAll() {
         return mealRepository.findAll();
     }
 
+    // F: Change the return type of this method to Optional<Meal>
+    // F: That way the caller of this method can decide what to do should the meal not be present.
+    // F: Bad design to pass nulls around when you have nice Optionals to work with.
     @Override
-    public Meals findById(int theID) {
-       Optional<Meals> result = mealRepository.findById(theID);
+    public Meal findById(int theID) {
+       Optional<Meal> result = mealRepository.findById(theID);
 
-       Meals meal = null;
+       Meal meal = null;
 
        if (result.isPresent()){
            meal = result.get();
@@ -41,12 +44,14 @@ public class MealServiceImpl implements MealService{
     }
 
     @Override
-    public Meals save(Meals meal) {
+    public Meal save(Meal meal) {
         return mealRepository.save(meal);
     }
 
+    //F: Make return type boolean -DONE
     @Override
     public void deleteByID(int theID) {
+        //F: put find logic here
         mealRepository.deleteById(theID);
     }
 }

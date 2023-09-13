@@ -2,9 +2,10 @@ package MealDemo.entity;
 
 import jakarta.persistence.*;
 
+//F: (nitpick) technically this is a meal not meals . . . small naming thing
 @Entity
 @Table(name="meals")
-public class Meals {
+public class Meal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,15 +18,12 @@ public class Meals {
     @Column(name="category")
     private String category;
 
-//    @OneToOne(mappedBy = "frequency")
-//    private Frequency frequency;
 
     //CONSTRUCTORS
-
-    public Meals() {
+    public Meal() {
     }
 
-    public Meals(String mealName, String category) {
+    public Meal(String mealName, String category) {
         this.mealName = mealName;
         this.category = category;
     }
@@ -55,23 +53,14 @@ public class Meals {
         this.category = category;
     }
 
-//    public Frequency getFrequency() {
-//        return frequency;
-//    }
-//
-//    public void setFrequency(Frequency frequency) {
-//        this.frequency = frequency;
-//    }
 
     //TO STRING
-
     @Override
     public String toString() {
         return "Meals{" +
                 "id=" + id +
                 ", mealName='" + mealName + '\'' +
                 ", category='" + category + '\'' +
-//                ", frequency=" + frequency +
                 '}';
     }
 }

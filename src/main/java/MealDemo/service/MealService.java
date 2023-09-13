@@ -1,13 +1,13 @@
 package MealDemo.service;
 
-import MealDemo.entity.Meals;
+import MealDemo.entity.Meal;
 
 import java.util.List;
 
 public interface MealService {
     // CRUD ops
-    List<Meals> findAll();
-    Meals findById(int theID);
-    Meals save(Meals meal);
+    List<Meal> findAll();
+    Meal findById(int theID);
+    Meal save(Meal meal);
     void deleteByID(int theID);
 }

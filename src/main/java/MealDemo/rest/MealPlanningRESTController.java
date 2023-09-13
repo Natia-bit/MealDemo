@@ -1,78 +1,65 @@
 package MealDemo.rest;
 
 import MealDemo.entity.Frequency;
-import MealDemo.entity.Meals;
-import MealDemo.service.MealPlanningService;
+import MealDemo.entity.Meal;
+import MealDemo.service.MealPlanningServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/test")
 public class MealPlanningRESTController {
 
-    private MealPlanningService mealPlanningService;
+    private MealPlanningServiceImpl mealPlanningServiceImpl;
 
-    public MealPlanningRESTController(MealPlanningService mealPlanningService) {
-        this.mealPlanningService = mealPlanningService;
+    public MealPlanningRESTController(MealPlanningServiceImpl mealPlanningServiceImpl) {
+        this.mealPlanningServiceImpl = mealPlanningServiceImpl;
     }
 
 
-    @GetMapping("/viewAll")
-    public void viewAll(){
-        mealPlanningService.getAllMeals();
-    }
 
-    // WORKING :)
     @GetMapping("/viewM")
-    public List<Meals> viewAllMeals(){
-        return mealPlanningService.getMeals();
+    public List<Meal> viewAllMeals(){
+        return mealPlanningServiceImpl.getMeals();
     }
 
 
     @GetMapping("/viewF")
     public List<Frequency> viewAllFreq(){
-        return mealPlanningService.getFrequencies();
+        return mealPlanningServiceImpl.getFrequencies();
     }
 
-    @GetMapping("/meals/{mealId}")
-    public Frequency findByMealID(@PathVariable int mealId){
-        Frequency frequency = mealPlanningService.findFreqByTheId(mealId);
 
-        if (frequency == null){
-            throw new RuntimeException("Meal ID not found");
-        }
-        return frequency;
+
+
+    @GetMapping("/meals/{mealId}")
+    public Optional<Meal> findByMealById(@PathVariable int mealId){
+        Optional<Meal> tempMeal = mealPlanningServiceImpl.findMealById(mealId);
+
+        return tempMeal ;
     }
 
 
     @PostMapping("/meal")
-    public Meals addMealsWithFreq(@RequestBody Meals meal){
-        return mealPlanningService.saveNewMeal(meal);
+    public void addMealsWithFreq(@RequestBody Meal meal){
+         mealPlanningServiceImpl.saveNewMeal(meal);
     }
 
 
-    @DeleteMapping("/meal/{id}")
-    public String deleteMeal (@PathVariable int id){
-        Frequency tempMeal = mealPlanningService.findFreqByTheId(id);
 
-        if (tempMeal == null){
-            throw new RuntimeException(("Meal ID not found"));
-        }
-
-        mealPlanningService.deleteMeal(id);
-
-        return "Meal ID " +tempMeal.getClass().getName() +  id + " is deleted";
+    // Deletes based on freq id not meal id
+    // ** change to meal id
+    @DeleteMapping("/meal/{mealId}")
+    public void deleteMeal (@PathVariable int mealId){
+        mealPlanningServiceImpl.deleteMeal(mealId);
     }
 
     @PutMapping("/meals/{mealId}")
-    public void updateMeal(@RequestBody Meals theMeal, @PathVariable int mealId){
-        mealPlanningService.updateMeal(mealId, theMeal);
-
-//        Meals dbMeal = mealPlanningService.saveNewMeal(theMeal);
-
-//        return dbMeal;
+    public void updateMeal(@RequestBody Meal theMeal, @PathVariable int mealId){
+        mealPlanningServiceImpl.updateMeal(mealId, theMeal);
     }
 
-    }
+}
 
