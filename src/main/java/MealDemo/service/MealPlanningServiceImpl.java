@@ -45,9 +45,7 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         return mealRepository.findById(mealId);
     }
 
-    // find by id
-
-    // SAVE NEW OR UPDATE
+    // SAVE NEW
     @Override
     public void saveNewMeal(Meal meal) {
         System.out.println("Saving meal");
@@ -61,7 +59,6 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
 
     // DELETE
-    // return boolean
     @Override
     public boolean deleteMeal(int mealId) {
         boolean isDeleted;
@@ -77,12 +74,9 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         }
 
         return isDeleted;
-
     }
 
-
-    // **** WIP ****
-    // update
+    // UPDATE
     @Override
     public void updateMeal(int mealId, Meal meal) {
         // find meal
@@ -97,28 +91,6 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
         System.out.println("meal has been updated. Meal details \n" + existingMeal.toString());
 
-
-        /**
-         * Your previous code was not working because you were finding a meal via:
-         *
-         * Meal existingMeal = mealRepository.getById(mealId);
-         *
-         * So now you have a NEW object called "existingMeal".
-         *
-         * Then later you were setting the meal via:
-         *
-         * mealRepository.save(meal);
-         *
-         * The issue is that "meal" is a different object from "existingMeal".
-         * I am willing to bet that due to some internal handling (maybe at DB layer) they were being given a different ID.
-         * This is very likely due to some sneaky logic in JPA that you can't see/control.
-         *
-         * Anyway . . . long story short "meal" and "existingMeal" are different objects so the JPA is saving them as different records on the DB.
-         * That's why you can simply overide the fields of "existingMeal" with the fields of "meal" and then update successfully
-         *
-         */
     }
-
-
 
 }
