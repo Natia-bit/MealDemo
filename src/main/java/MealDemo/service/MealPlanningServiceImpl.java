@@ -6,29 +6,26 @@ import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 @Service
 public class MealPlanningServiceImpl implements MealPlanningService {
 
-    // =========== REPOSITORIES ===========
     private MealRepository mealRepository;
     private FrequencyRepository frequencyRepository;
 
 
-    // =========== CONSTRUCTOR ===========
     @Autowired
     public MealPlanningServiceImpl(MealRepository mealRepository, FrequencyRepository frequencyRepository) {
         this.mealRepository = mealRepository;
         this.frequencyRepository = frequencyRepository;
     }
 
-
-    // =========== IMPLEMENTATIONS ===========
-
-    // GET MEALS & SEQUENCES
     @Override
     public List<Meal> getMeals() {
         return mealRepository.findAll();
@@ -39,13 +36,22 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         return frequencyRepository.findAll();
     }
 
-    // FIND BY ID
     @Override
-    public Optional<Meal> findMealById(int mealId) {
-        return mealRepository.findById(mealId);
+    public Meal findMealById(int mealId) {
+        Optional<Meal> result = mealRepository.findById(mealId);
+
+        Meal meal = null;
+
+        if (result.isPresent()){
+                meal = result.get();
+        } else {
+            throw new ResponseStatusException(NOT_FOUND, "Invalid meal ID");
+        }
+
+        return meal;
     }
 
-    // SAVE NEW
+
     @Override
     public void saveNewMeal(Meal meal) {
         System.out.println("Saving meal");
@@ -57,30 +63,24 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         System.out.println("meal saved! ");
     }
 
-
-    // DELETE
     @Override
     public boolean deleteMeal(int mealId) {
-        boolean isDeleted;
-        // find
-        Optional<Meal> tempMeal = findMealById(mealId);
+
+       Optional<Meal> tempMeal = mealRepository.findById(mealId);
         if (tempMeal.isEmpty()){
             System.out.println("Could not find meal");
-            isDeleted = false;
         } else {
             mealRepository.deleteById(mealId);
             System.out.println("Meal Deleted");
-            isDeleted = true;
         }
 
-        return isDeleted;
+        return tempMeal.isPresent();
     }
 
-    // UPDATE
     @Override
     public void updateMeal(int mealId, Meal meal) {
-        // find meal
-        Meal existingMeal = mealRepository.getById(mealId);
+        // if cant find mealId will show 404 error cant find ID
+        Meal existingMeal = findMealById(mealId);
 
         System.out.println("Recipe to edit " + existingMeal.getMealName() + " with id " + mealId);
 
@@ -90,7 +90,6 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         mealRepository.save(existingMeal);
 
         System.out.println("meal has been updated. Meal details \n" + existingMeal.toString());
-
     }
 
 }

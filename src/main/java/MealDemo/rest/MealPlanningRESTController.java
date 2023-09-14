@@ -6,10 +6,9 @@ import MealDemo.service.MealPlanningServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/home")
 public class MealPlanningRESTController {
 
     private MealPlanningServiceImpl mealPlanningServiceImpl;
@@ -19,39 +18,33 @@ public class MealPlanningRESTController {
     }
 
 
-
-    @GetMapping("/viewM")
+    @GetMapping("/meals")
     public List<Meal> viewAllMeals(){
         return mealPlanningServiceImpl.getMeals();
     }
 
 
-    @GetMapping("/viewF")
+    @GetMapping("meals/frequencies")
     public List<Frequency> viewAllFreq(){
         return mealPlanningServiceImpl.getFrequencies();
     }
 
 
-
-
     @GetMapping("/meals/{mealId}")
-    public Optional<Meal> findByMealById(@PathVariable int mealId){
-        Optional<Meal> tempMeal = mealPlanningServiceImpl.findMealById(mealId);
+    public Meal findByMealById(@PathVariable int mealId){
+        Meal tempMeal = mealPlanningServiceImpl.findMealById(mealId);
 
         return tempMeal ;
     }
 
 
-    @PostMapping("/meal")
+    @PostMapping("/meals")
     public void addMealsWithFreq(@RequestBody Meal meal){
          mealPlanningServiceImpl.saveNewMeal(meal);
     }
 
 
-
-    // Deletes based on freq id not meal id
-    // ** change to meal id
-    @DeleteMapping("/meal/{mealId}")
+    @DeleteMapping("/meals/{mealId}")
     public void deleteMeal (@PathVariable int mealId){
         mealPlanningServiceImpl.deleteMeal(mealId);
     }

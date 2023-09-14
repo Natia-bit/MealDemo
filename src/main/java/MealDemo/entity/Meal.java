@@ -2,7 +2,6 @@ package MealDemo.entity;
 
 import jakarta.persistence.*;
 
-//F: (nitpick) technically this is a meal not meals . . . small naming thing
 @Entity
 @Table(name="meals")
 public class Meal {
@@ -19,7 +18,6 @@ public class Meal {
     private String category;
 
 
-    //CONSTRUCTORS
     public Meal() {
     }
 
@@ -28,7 +26,7 @@ public class Meal {
         this.category = category;
     }
 
-    //GETTER AND SETTER
+
     public int getId() {
         return id;
     }
@@ -54,7 +52,7 @@ public class Meal {
     }
 
 
-    //TO STRING
+
     @Override
     public String toString() {
         return "Meals{" +
