@@ -4,13 +4,14 @@ import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MealPlanningService {
 
     List<Meal> getMeals();
     List<Frequency> getFrequencies();
 
-    Meal findMealById(int mealId);
+    Optional<Meal> findMealById(int mealId);
 
     void saveNewMeal(Meal meal);
 

@@ -4,8 +4,12 @@ import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
 import MealDemo.service.MealPlanningServiceImpl;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequestMapping("/home")
@@ -31,10 +35,18 @@ public class MealPlanningRESTController {
 
 
     @GetMapping("/meals/{mealId}")
-    public Meal findByMealById(@PathVariable int mealId){
-        Meal tempMeal = mealPlanningServiceImpl.findMealById(mealId);
+    public Meal findByMealId(@PathVariable int mealId){
+        Optional<Meal> tempMeal = mealPlanningServiceImpl.findMealById(mealId);
 
-        return tempMeal ;
+        Meal meal = null;
+
+        if (tempMeal.isPresent()){
+            meal = tempMeal.get();
+        } else {
+            throw new ResponseStatusException(NOT_FOUND, "Invalid meal ID");
+        }
+
+        return meal ;
     }
 
 
@@ -45,15 +57,20 @@ public class MealPlanningRESTController {
 
 
     @DeleteMapping("/meals/{mealId}")
-    public void deleteMeal (@PathVariable int mealId){
+    public void deleteMeal (@PathVariable int mealId){qqqqcccc
         mealPlanningServiceImpl.deleteMeal(mealId);
     }
 
     @PutMapping("/meals/{mealId}")
     public void updateMeal(@RequestBody Meal theMeal, @PathVariable int mealId){
-        mealPlanningServiceImpl.updateMeal(mealId, theMeal);
-    }
+        Optional<Meal> tempMeal = mealPlanningServiceImpl.findMealById(mealId);
 
+        if (tempMeal.isPresent()){
+            mealPlanningServiceImpl.updateMeal(mealId, theMeal);
+        } else {
+            throw new ResponseStatusException(NOT_FOUND, "Invalid meal ID");
+        }
+    }
 
 }
 

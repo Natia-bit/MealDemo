@@ -6,12 +6,9 @@ import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class MealPlanningServiceImpl implements MealPlanningService {
@@ -37,18 +34,9 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     }
 
     @Override
-    public Meal findMealById(int mealId) {
-        Optional<Meal> result = mealRepository.findById(mealId);
+    public Optional<Meal> findMealById(int mealId) {
 
-        Meal meal = null;
-
-        if (result.isPresent()){
-                meal = result.get();
-        } else {
-            throw new ResponseStatusException(NOT_FOUND, "Invalid meal ID");
-        }
-
-        return meal;
+        return mealRepository.findById(mealId);
     }
 
 
@@ -80,9 +68,10 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     @Override
     public void updateMeal(int mealId, Meal meal) {
         // if cant find mealId will show 404 error cant find ID
-        Meal existingMeal = findMealById(mealId);
+        Meal existingMeal = mealRepository.getById(mealId);
 
-        System.out.println("Recipe to edit " + existingMeal.getMealName() + " with id " + mealId);
+
+        System.out.println("Recipe to edit " + existingMeal.getClass().getName() + " with id " + mealId);
 
         existingMeal.setMealName(meal.getMealName());
         existingMeal.setCategory(meal.getCategory());
