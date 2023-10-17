@@ -57,7 +57,7 @@ public class MealPlanningRESTController {
 
 
     @DeleteMapping("/meals/{mealId}")
-    public void deleteMeal (@PathVariable int mealId){qqqqcccc
+    public void deleteMeal (@PathVariable int mealId){
         mealPlanningServiceImpl.deleteMeal(mealId);
     }
 
