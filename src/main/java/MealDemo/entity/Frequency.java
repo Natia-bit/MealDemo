@@ -2,6 +2,7 @@ package MealDemo.entity;
 
 import jakarta.persistence.*;
 
+
 @Entity
 public class Frequency {
     @Id
