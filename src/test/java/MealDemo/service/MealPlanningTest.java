@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 @RunWith(SpringRunner.class)
@@ -97,6 +100,21 @@ public class MealPlanningTest {
         assertEquals(mealTestDB.getMeals().get(1).getMealName(), "Beef Test");
         // check it didn't add a new entry
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> mealTestDB.getMeals().get(2) );
+    }
+
+
+    @Test
+    public void whenDeletingMealWithId_ShouldReturnEmpty(){
+        MealPlanningServiceImpl mealTestDB = new MealPlanningServiceImpl(mealRepository, frequencyRepository);
+        mealTestDB.saveNewMeal(new Meal("Chicken Pasta Bake", "Chicken"));
+        mealTestDB.saveNewMeal(new Meal("Chili Con Carne", "Beef"));
+
+        mealTestDB.deleteMeal(1);
+        assertEquals(mealTestDB.findMealById(1), Optional.empty());
+        assertNotEquals(mealTestDB.findMealById(1), mealTestDB.findMealById(2));
+
+        mealTestDB.deleteMeal(2);
+        assertEquals(mealTestDB.findMealById(2), Optional.empty());
     }
 
 
