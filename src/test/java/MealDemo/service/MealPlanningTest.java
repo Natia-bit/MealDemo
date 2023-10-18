@@ -4,6 +4,7 @@ import MealDemo.dao.FrequencyRepository;
 import MealDemo.dao.MealRepository;
 import MealDemo.entity.Meal;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class MealPlanningTest {
-
 
     @Autowired
     private MealRepository mealRepository;
@@ -37,20 +37,20 @@ public class MealPlanningTest {
     @Test
     public void whenSaveNewMealBeef_ThenReturnMealBeef(){
         Meal meal = new Meal("Beef Burger", "Beef");
-        MealPlanningServiceImpl mealsDb = new MealPlanningServiceImpl(mealRepository, frequencyRepository);
-        mealsDb.saveNewMeal(meal);
+        MealPlanningServiceImpl mealsDb1 = new MealPlanningServiceImpl(mealRepository, frequencyRepository);
+        mealsDb1.saveNewMeal(meal);
 
-        assertEquals(mealsDb.getMeals().get(0), meal);
-        assertEquals(mealsDb.getMeals().get(0).getMealName(), "Beef Burger");
-        assertEquals(mealsDb.getMeals().get(0).getCategory(), "Beef");
-        assertNotEquals(mealsDb.getMeals().get(0).getCategory(), "Chicken");
+        assertEquals(mealsDb1.getMeals().get(0), meal);
+        assertEquals(mealsDb1.getMeals().get(0).getMealName(), "Beef Burger");
+        assertEquals(mealsDb1.getMeals().get(0).getCategory(), "Beef");
+        assertNotEquals(mealsDb1.getMeals().get(0).getCategory(), "Chicken");
     }
-
 
     @Test
     public void whenGivenMealId_ShouldReturnMealWithSameId(){
         MealPlanningServiceImpl mealsDb = new MealPlanningServiceImpl(mealRepository, frequencyRepository);
 
+        // Case 1
         Meal meal1 = new Meal("Beef burritos", "Beef");
         mealsDb.saveNewMeal(meal1);
 
@@ -60,27 +60,46 @@ public class MealPlanningTest {
             assertEquals(mealsDb.findMealById(1).get().getMealName(), meal1.getMealName());
         }
 
-//        assertTrue(mealsDb.findMealById(1).isPresent());
-//        assertEquals(mealsDb.findMealById(1), meal1);
-//        assertEquals(mealsDb.findMealById(1).get(), meal1);
+        // Case 2
+        Meal meal2 = new Meal("Chicken Pasta Bake", "Chicken");
+        mealsDb.saveNewMeal(meal2);
 
+        if (mealsDb.findMealById(2).isPresent()){
+            System.out.println(mealsDb.findMealById(2).get().getMealName());
+            System.out.println(meal2.getMealName());
+            assertEquals(mealsDb.findMealById(2).get().getMealName(), meal2.getMealName());
+        }
 
-//
-//        Meal meal2 = new Meal("Chicken enchiladas", "Chicken");
-//        mealsDb.saveNewMeal(meal2);
-//        assertEquals(mealsDb.findMealById(2).get(), meal2);
-//
-//
-//        Meal meal3 = new Meal("Fish Tacos", "Fish");
-//        mealsDb.saveNewMeal(meal3);
-//        assertEquals(mealsDb.findMealById(3).get(), meal3);
+        // Case 4
+        System.out.println("Case 4");
+        if (mealsDb.findMealById(1).isPresent() && mealsDb.findMealById(2).isPresent()){
+            assertNotEquals(mealsDb.findMealById(1).get().getMealName(), meal2.getMealName());
+        }
+        System.out.println("Complete");
+
     }
 
     @Test
-    public void testHelloWorld(){
-        String helloWorld = "Hello World";
+    public void whenUpdatingMealName_ShouldReturnNewName(){
 
-        assertEquals(helloWorld, "Hello World");
+        MealPlanningServiceImpl mealTestDB = new MealPlanningServiceImpl(mealRepository, frequencyRepository);
+        mealTestDB.saveNewMeal(new Meal("Chicken Test", "Chicken"));
+        mealTestDB.saveNewMeal(new Meal("Beef Test", "Beef"));
+
+        Meal updatedMeal = new Meal("Updated name", "Updated category");
+        mealTestDB.updateMeal(1, updatedMeal);
+
+         // checks if it updates
+        assertEquals(mealTestDB.getMeals().get(0).getMealName(), "Updated name");
+        // checks if it updated the right one with the right details
+        assertNotEquals(mealTestDB.getMeals().get(0).getMealName(), "Chicken Test");
+        // check if it didn't modify other data
+        assertEquals(mealTestDB.getMeals().get(1).getMealName(), "Beef Test");
+        // check it didn't add a new entry
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> mealTestDB.getMeals().get(2) );
     }
+
+
+
 
 }
