@@ -81,21 +81,6 @@ public class MealPlanningTest {
             assertNotEquals(mealTestDb.getMeals().get(0).getMealName(), "Beef Burger");
             assertEquals(mealTestDb.getMeals().size(), 4);
         }
-
-
-        System.out.println("Verifying: " + mealTestDb.getMeals().get(0).getMealName());
-        System.out.println("Verifying: " + mealTestDb.getMeals().get(1).getMealName());
-
-
-//            assertEquals(mealTestDb.getMeals().get(0).getMealName(), "Updated name");
-//            // checks if it updated the right one with the right details
-//            assertNotEquals(mealTestDb.getMeals().get(0).getMealName(), "Beef Burger");
-//            // check if it didn't modify other data
-//            assertEquals(mealTestDb.getMeals().get(1).getMealName(), "Beef Burger");
-//            // check it didn't add a new entry
-//            Assertions.assertThrows(IndexOutOfBoundsException.class, () -> mealTestDb.getMeals().get(4));
-
-        // checks if it updates
     }
 
 
