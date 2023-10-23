@@ -27,47 +27,47 @@ public class MealPlanningTest {
     private FrequencyRepository frequencyRepository;
 
 
-    private MealPlanningServiceImpl mealTestDb;
+    private MealPlanningServiceImpl mealsTestData;
 
     @Before
     public void setUp() {
-        mealTestDb = new MealPlanningServiceImpl(mealRepository, frequencyRepository);
-        mealTestDb.saveNewMeal(new Meal("Chicken Tacos", "Chicken"));
-        mealTestDb.saveNewMeal(new Meal("Beef Burger", "Beef"));
-        mealTestDb.saveNewMeal(new Meal("Fish and Chips", "Fish"));
-        mealTestDb.saveNewMeal(new Meal("Black Bean Enchiladas", "Veggies"));
+        mealsTestData = new MealPlanningServiceImpl(mealRepository, frequencyRepository);
+        mealsTestData.saveNewMeal(new Meal("Chicken Tacos", "Chicken"));
+        mealsTestData.saveNewMeal(new Meal("Beef Burger", "Beef"));
+        mealsTestData.saveNewMeal(new Meal("Fish and Chips", "Fish"));
+        mealsTestData.saveNewMeal(new Meal("Black Bean Enchiladas", "Veggies"));
     }
 
     @Test
     public void whenSaveNewMealChicken_ThenReturnMealChicken(){
-        assertEquals(mealTestDb.getMeals().get(0).getMealName(), "Chicken Tacos");
-        assertEquals(mealTestDb.getMeals().get(0).getCategory(), "Chicken");
-        assertEquals(mealTestDb.getMeals().get(0).getId(), 1);
+        assertEquals(mealsTestData.getMeals().get(0).getMealName(), "Chicken Tacos");
+        assertEquals(mealsTestData.getMeals().get(0).getCategory(), "Chicken");
+        assertEquals(mealsTestData.getMeals().get(0).getId(), 1);
     }
 
     @Test
     public void whenSaveNewMealBeef_ThenReturnMealBeef(){
-        assertEquals(mealTestDb.getMeals().get(1).getMealName(), "Beef Burger");
-        assertEquals(mealTestDb.getMeals().get(1).getCategory(), "Beef");
-        assertNotEquals(mealTestDb.getMeals().get(1).getCategory(), "Chicken");
+        assertEquals(mealsTestData.getMeals().get(1).getMealName(), "Beef Burger");
+        assertEquals(mealsTestData.getMeals().get(1).getCategory(), "Beef");
+        assertNotEquals(mealsTestData.getMeals().get(1).getCategory(), "Chicken");
     }
 
     @Test
     public void whenGivenMealId_ShouldReturnMealWithSameId(){
         // with if statement check that data is present as the method returns Optional<>
-        if (mealTestDb.findMealById(1).isPresent()){
-            assertEquals(mealTestDb.getMeals().get(0).getMealName(),
-                         mealTestDb.findMealById(1).get().getMealName());
+        if (mealsTestData.findMealById(1).isPresent()){
+            assertEquals(mealsTestData.getMeals().get(0).getMealName(),
+                         mealsTestData.findMealById(1).get().getMealName());
         }
 
-        if (mealTestDb.findMealById(2).isPresent()){
-            assertEquals(mealTestDb.getMeals().get(1).getMealName(),
-                         mealTestDb.findMealById(2).get().getMealName());
+        if (mealsTestData.findMealById(2).isPresent()){
+            assertEquals(mealsTestData.getMeals().get(1).getMealName(),
+                         mealsTestData.findMealById(2).get().getMealName());
         }
 
-        if (mealTestDb.findMealById(1).isPresent() && mealTestDb.findMealById(2).isPresent()){
-            assertNotEquals(mealTestDb.findMealById(1).get().getMealName(),
-                            mealTestDb.getMeals().get(2).getMealName());
+        if (mealsTestData.findMealById(1).isPresent() && mealsTestData.findMealById(2).isPresent()){
+            assertNotEquals(mealsTestData.findMealById(1).get().getMealName(),
+                            mealsTestData.getMeals().get(2).getMealName());
         }
     }
 
@@ -75,23 +75,23 @@ public class MealPlanningTest {
     public void whenUpdatingMealName_ShouldReturnNewName(){
         Meal newMealDetails = new Meal("Updated name", "Updated category");
 
-        if (mealTestDb.findMealById(1).isPresent()){
-            mealTestDb.updateMeal(1, newMealDetails);
-            assertEquals(mealTestDb.getMeals().get(0).getMealName(), "Updated name");
-            assertNotEquals(mealTestDb.getMeals().get(0).getMealName(), "Beef Burger");
-            assertEquals(mealTestDb.getMeals().size(), 4);
+        if (mealsTestData.findMealById(1).isPresent()){
+            mealsTestData.updateMeal(1, newMealDetails);
+            assertEquals(mealsTestData.getMeals().get(0).getMealName(), "Updated name");
+            assertNotEquals(mealsTestData.getMeals().get(0).getMealName(), "Beef Burger");
+            assertEquals(mealsTestData.getMeals().size(), 4);
         }
     }
 
 
     @Test
     public void whenDeletingMealWithId_ShouldReturnEmpty(){
-        mealTestDb.deleteMeal(1);
-        assertEquals(mealTestDb.findMealById(1), Optional.empty());
+        mealsTestData.deleteMeal(1);
+        assertEquals(mealsTestData.findMealById(1), Optional.empty());
 
-        mealTestDb.deleteMeal(2);
-        assertEquals(mealTestDb.findMealById(2), Optional.empty());
+        mealsTestData.deleteMeal(2);
+        assertEquals(mealsTestData.findMealById(2), Optional.empty());
 
-        assertEquals(mealTestDb.getMeals().get(0).getMealName(), "Chicken Tacos");
+        assertEquals(mealsTestData.getMeals().get(0).getMealName(), "Chicken Tacos");
     }
 }
