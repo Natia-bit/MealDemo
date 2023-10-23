@@ -7,4 +7,5 @@ public interface FrequencyRepository extends JpaRepository<Frequency, Integer> {
     // entity: Frequency
     // primary key: type INTEGER (id)
 
+
 }

@@ -2,6 +2,7 @@ package MealDemo.entity;
 
 import jakarta.persistence.*;
 
+
 @Entity
 public class Frequency {
     @Id
@@ -10,11 +11,11 @@ public class Frequency {
     private int id;
 
     @Column(name="times_used")
-    private int timesUsed;
+    private int timesUsed = 0;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "meal_id", referencedColumnName = "id")
-    private Meals meal;
+    private Meal meal;
 
     //
     //CONSTRUCTORS
@@ -39,11 +40,11 @@ public class Frequency {
         this.timesUsed = timesUsed;
     }
 
-    public Meals getMeal() {
+    public Meal getMeal() {
         return meal;
     }
 
-    public void setMeal(Meals meal) {
+    public void setMeal(Meal meal) {
         this.meal = meal;
     }
 
