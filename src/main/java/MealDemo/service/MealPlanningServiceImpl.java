@@ -109,27 +109,24 @@ public class MealPlanningServiceImpl implements MealPlanningService {
             }
         }
 
-        weeklyMealOccurrence.put("Chicken", 2);
+        weeklyMealOccurrence.put("Chicken", 1);
         weeklyMealOccurrence.put("Fish", 1);
         weeklyMealOccurrence.put("Meat", 2);
-        weeklyMealOccurrence.put("Vegetarian", 2);
+        weeklyMealOccurrence.put("Vegetarian", 3);
         System.out.println( "Weekly meal occurrences " + weeklyMealOccurrence);
 
-
-
         for (Map.Entry<String, Integer> entry : weeklyMealOccurrence.entrySet()){
-            String mealCat = entry.getKey();
-            int weeklyOccurrence = entry.getValue();
-
+            String mealCat = entry.getKey(); //category: Chicken, fish, veg, etc
+            int weeklyOccurrence = entry.getValue(); // how many times in a week i ll have that
             System.out.println( "For loop: " + mealCat + " " + weeklyOccurrence);
 
                 for (Meal meal : mealsList){
-
                     while (weeklyOccurrence > 0){
                         Collections.shuffle(mealsList);
-                        // pick category
+
+
+
                         if (meal.getCategory().equals(mealCat)){
-                            System.out.println(mealCat);
 
                             weeklyMeals.putIfAbsent(DaysOfTheWeek.MONDAY, mealsList.get(0));
                             weeklyMeals.putIfAbsent(DaysOfTheWeek.TUESDAY, mealsList.get(1));
@@ -140,17 +137,9 @@ public class MealPlanningServiceImpl implements MealPlanningService {
                             weeklyMeals.putIfAbsent(DaysOfTheWeek.SUNDAY, mealsList.get(6));
 
                         }
-                        // pick meal
-                        // ad on monday
-
-
 //                        System.out.println( "Category " + meal.getCategory() + " Meal name " + meal.getMealName());
-
-//                            weeklyMeals.put(DaysOfTheWeek.MONDAY, mealsList.get(randomNumberGenerator(mealsList.size())));
-
                         weeklyOccurrence --;
                     }
-
                 }
         }
 
