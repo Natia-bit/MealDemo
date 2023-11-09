@@ -7,8 +7,7 @@ import MealDemo.entity.Meal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -81,5 +80,81 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
         System.out.println("meal has been updated. Meal details \n" + existingMeal.toString());
     }
+
+
+    private int randomNumberGenerator(int min, int max){
+        Random random = new Random();
+        return random.nextInt(min, max);
+    }
+
+    private int randomNumberGenerator(int max){
+        Random random = new Random();
+        return random.nextInt(max);
+    }
+
+
+
+    @Override
+    // generate 7 random meals
+    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals() {
+
+        HashMap<DaysOfTheWeek, Meal> weeklyMeals = new HashMap<>();
+
+        List<Meal> mealsList = getMeals();
+        HashMap<String, Integer> weeklyMealOccurrence = new HashMap<>();
+
+        for (Meal meal : mealsList){
+            if (!weeklyMealOccurrence.containsKey(meal.getCategory())){
+                weeklyMealOccurrence.put(meal.getCategory(), 1);
+            }
+        }
+
+        weeklyMealOccurrence.put("Chicken", 2);
+        weeklyMealOccurrence.put("Fish", 1);
+        weeklyMealOccurrence.put("Meat", 2);
+        weeklyMealOccurrence.put("Vegetarian", 2);
+        System.out.println( "Weekly meal occurrences " + weeklyMealOccurrence);
+
+
+
+        for (Map.Entry<String, Integer> entry : weeklyMealOccurrence.entrySet()){
+            String mealCat = entry.getKey();
+            int weeklyOccurrence = entry.getValue();
+
+            System.out.println( "For loop: " + mealCat + " " + weeklyOccurrence);
+                for (Meal meal : mealsList){
+                    if (meal.getCategory().equals(mealCat)){
+
+                        DaysOfTheWeek randomDay = DaysOfTheWeek.values()[randomNumberGenerator(7)];
+                        Meal randomMeal = mealsList.get(randomNumberGenerator(mealsList.size()));
+
+                        System.out.println( "Category " + meal.getCategory() + " Meal name " + meal.getMealName());
+
+                        while (weeklyOccurrence > 0){
+                            weeklyMeals.put(randomDay, randomMeal);
+                            weeklyOccurrence --;
+                        }
+                    }
+                }
+
+        }
+
+        System.out.println(weeklyMeals);
+
+        return weeklyMeals;
+    }
+
+    @Override
+    public String test(){
+        String test = " Testing . . . ";
+        return test;
+    }
+
+
+
+
+
+
+
 
 }

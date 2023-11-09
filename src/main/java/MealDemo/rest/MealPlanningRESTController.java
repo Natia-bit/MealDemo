@@ -2,10 +2,12 @@ package MealDemo.rest;
 
 import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
+import MealDemo.service.DaysOfTheWeek;
 import MealDemo.service.MealPlanningServiceImpl;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,6 +72,16 @@ public class MealPlanningRESTController {
         } else {
             throw new ResponseStatusException(NOT_FOUND, "Invalid meal ID");
         }
+    }
+
+    @GetMapping("/meals/weekly-menu")
+    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals(){
+        return mealPlanningServiceImpl.generateWeeklyMeals();
+    }
+
+    @GetMapping("/meals/testing")
+    public String testing(){
+        return mealPlanningServiceImpl.test();
     }
 
 }

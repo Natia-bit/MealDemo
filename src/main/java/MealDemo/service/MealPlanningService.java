@@ -3,6 +3,7 @@ package MealDemo.service;
 import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,12 @@ public interface MealPlanningService {
     void updateMeal(int mealId, Meal meal);
 
     boolean deleteMeal(int id);
+
+    HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals() ;
+
+    String test();
+
+
 
 
 }
