@@ -122,37 +122,51 @@ public class MealPlanningServiceImpl implements MealPlanningService {
             int weeklyOccurrence = entry.getValue();
 
             System.out.println( "For loop: " + mealCat + " " + weeklyOccurrence);
+
                 for (Meal meal : mealsList){
-                    if (meal.getCategory().equals(mealCat)){
 
-                        DaysOfTheWeek randomDay = DaysOfTheWeek.values()[randomNumberGenerator(7)];
-                        Meal randomMeal = mealsList.get(randomNumberGenerator(mealsList.size()));
+                    while (weeklyOccurrence > 0){
+                        Collections.shuffle(mealsList);
+                        // pick category
+                        if (meal.getCategory().equals(mealCat)){
+                            System.out.println(mealCat);
 
-                        System.out.println( "Category " + meal.getCategory() + " Meal name " + meal.getMealName());
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.MONDAY, mealsList.get(0));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.TUESDAY, mealsList.get(1));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.WEDNESDAY, mealsList.get(2));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.THURSDAY, mealsList.get(3));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.FRIDAY, mealsList.get(4));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.SATURDAY, mealsList.get(5));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.SUNDAY, mealsList.get(6));
 
-                        while (weeklyOccurrence > 0){
-                            weeklyMeals.put(randomDay, randomMeal);
-                            weeklyOccurrence --;
                         }
-                    }
-                }
+                        // pick meal
+                        // ad on monday
 
+
+//                        System.out.println( "Category " + meal.getCategory() + " Meal name " + meal.getMealName());
+
+//                            weeklyMeals.put(DaysOfTheWeek.MONDAY, mealsList.get(randomNumberGenerator(mealsList.size())));
+
+                        weeklyOccurrence --;
+                    }
+
+                }
         }
+
 
         System.out.println(weeklyMeals);
 
+
         return weeklyMeals;
+
     }
 
     @Override
     public String test(){
-        String test = " Testing . . . ";
-        return test;
+        String testing = " Testing . . . ";
+        return testing;
     }
-
-
-
-
 
 
 
