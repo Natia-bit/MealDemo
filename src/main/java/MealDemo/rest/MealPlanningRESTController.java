@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -74,6 +75,12 @@ public class MealPlanningRESTController {
         }
     }
 
+
+    @GetMapping("/meals/categories")
+    public Map<String, List<Meal>> getMealsByCategories(){
+        return mealPlanningServiceImpl.mealsByCategories();
+    }
+
     @GetMapping("/meals/weekly-menu")
     public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals(){
         return mealPlanningServiceImpl.generateWeeklyMeals();
@@ -85,4 +92,15 @@ public class MealPlanningRESTController {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
 

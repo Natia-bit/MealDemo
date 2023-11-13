@@ -5,6 +5,7 @@ import MealDemo.entity.Meal;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface MealPlanningService {
@@ -19,6 +20,8 @@ public interface MealPlanningService {
     void updateMeal(int mealId, Meal meal);
 
     boolean deleteMeal(int id);
+
+    Map<String, List<Meal>> mealsByCategories();
 
     HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals() ;
 

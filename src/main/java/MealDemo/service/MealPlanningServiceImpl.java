@@ -35,7 +35,6 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
     @Override
     public Optional<Meal> findMealById(int mealId) {
-
         return mealRepository.findById(mealId);
     }
 
@@ -82,6 +81,24 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     }
 
 
+    @Override
+    public Map<String, List<Meal>> mealsByCategories() {
+
+        List<Meal> allMeals = getMeals();
+        Map<String, List<Meal>> mealsByCategories = new HashMap<>();
+        for (Meal meal : allMeals){
+            String category = meal.getCategory();
+            List<Meal> mealsOfSameCategory = mealsByCategories.computeIfAbsent(category, k -> new ArrayList<>());
+            mealsOfSameCategory.add(meal);
+
+        }
+
+        System.out.println(mealsByCategories);
+
+
+        return  mealsByCategories();
+    }
+
     private int randomNumberGenerator(int min, int max){
         Random random = new Random();
         return random.nextInt(min, max);
@@ -100,14 +117,14 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
         HashMap<DaysOfTheWeek, Meal> weeklyMeals = new HashMap<>();
 
-        List<Meal> mealsList = getMeals();
+        List<Meal> allMeals = getMeals();
         HashMap<String, Integer> weeklyMealOccurrence = new HashMap<>();
 
-        for (Meal meal : mealsList){
+        /*for (Meal meal : allMeals){
             if (!weeklyMealOccurrence.containsKey(meal.getCategory())){
                 weeklyMealOccurrence.put(meal.getCategory(), 1);
             }
-        }
+        }*/
 
         weeklyMealOccurrence.put("Chicken", 1);
         weeklyMealOccurrence.put("Fish", 1);
@@ -115,30 +132,35 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         weeklyMealOccurrence.put("Vegetarian", 3);
         System.out.println( "Weekly meal occurrences " + weeklyMealOccurrence);
 
+
+        for (DaysOfTheWeek day : DaysOfTheWeek.values()){
+
+            System.out.println(day);;
+
+        }
+
+
+
+
         for (Map.Entry<String, Integer> entry : weeklyMealOccurrence.entrySet()){
             String mealCat = entry.getKey(); //category: Chicken, fish, veg, etc
             int weeklyOccurrence = entry.getValue(); // how many times in a week i ll have that
-            System.out.println( "For loop: " + mealCat + " " + weeklyOccurrence);
+//            System.out.println( "For loop: " + mealCat + " " + weeklyOccurrence);
+            Collections.shuffle(allMeals);
+            for (Meal meal : allMeals){
+                    if ((meal.getCategory().equals(mealCat)) && weeklyOccurrence > 0){
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.MONDAY, allMeals.get(0));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.TUESDAY, allMeals.get(1));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.WEDNESDAY, allMeals.get(2));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.THURSDAY, allMeals.get(3));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.FRIDAY, allMeals.get(4));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.SATURDAY, allMeals.get(5));
+                            weeklyMeals.putIfAbsent(DaysOfTheWeek.SUNDAY, allMeals.get(6));
 
-                for (Meal meal : mealsList){
-                    while (weeklyOccurrence > 0){
-                        Collections.shuffle(mealsList);
 
-
-
-                        if (meal.getCategory().equals(mealCat)){
-
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.MONDAY, mealsList.get(0));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.TUESDAY, mealsList.get(1));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.WEDNESDAY, mealsList.get(2));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.THURSDAY, mealsList.get(3));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.FRIDAY, mealsList.get(4));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.SATURDAY, mealsList.get(5));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.SUNDAY, mealsList.get(6));
-
-                        }
 //                        System.out.println( "Category " + meal.getCategory() + " Meal name " + meal.getMealName());
                         weeklyOccurrence --;
+                        weeklyMealOccurrence.put(mealCat, weeklyOccurrence);
                     }
                 }
         }
