@@ -85,18 +85,13 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     public Map<String, List<Meal>> mealsByCategories() {
 
         List<Meal> allMeals = getMeals();
-        Map<String, List<Meal>> mealsByCategories = new HashMap<>();
-        for (Meal meal : allMeals){
-            String category = meal.getCategory();
-            List<Meal> mealsOfSameCategory = mealsByCategories.computeIfAbsent(category, k -> new ArrayList<>());
-            mealsOfSameCategory.add(meal);
+        Map<String, List<Meal>> mealsByCategoriesList = new HashMap<>();
 
+        for (Meal meal : allMeals){
+            mealsByCategoriesList.computeIfAbsent(meal.getCategory(), k -> new ArrayList<>()).add(meal);
         }
 
-        System.out.println(mealsByCategories);
-
-
-        return  mealsByCategories();
+        return  mealsByCategoriesList;
     }
 
     private int randomNumberGenerator(int min, int max){
@@ -117,7 +112,7 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
         HashMap<DaysOfTheWeek, Meal> weeklyMeals = new HashMap<>();
 
-        List<Meal> allMeals = getMeals();
+
         HashMap<String, Integer> weeklyMealOccurrence = new HashMap<>();
 
         /*for (Meal meal : allMeals){
