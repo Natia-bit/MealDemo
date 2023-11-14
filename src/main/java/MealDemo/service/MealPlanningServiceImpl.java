@@ -53,8 +53,8 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     @Override
     public boolean deleteMeal(int mealId) {
 
-       Optional<Meal> tempMeal = mealRepository.findById(mealId);
-        if (tempMeal.isEmpty()){
+        Optional<Meal> tempMeal = mealRepository.findById(mealId);
+        if (tempMeal.isEmpty()) {
             System.out.println("Could not find meal");
         } else {
             mealRepository.deleteById(mealId);
@@ -85,19 +85,19 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     public Map<String, List<Meal>> mealsByCategories() {
         List<Meal> allMeals = getMeals();
         Map<String, List<Meal>> mealsByCategoriesList = new HashMap<>();
-        for (Meal meal : allMeals){
+        for (Meal meal : allMeals) {
             mealsByCategoriesList.computeIfAbsent(meal.getCategory(), k -> new ArrayList<>()).add(meal);
         }
 
-        return  mealsByCategoriesList;
+        return mealsByCategoriesList;
     }
 
-    private int randomNumberGenerator(int min, int max){
+    private int randomNumberGenerator(int min, int max) {
         Random random = new Random();
         return random.nextInt(min, max);
     }
 
-    private int randomNumberGenerator(int max){
+    private int randomNumberGenerator(int max) {
         Random random = new Random();
         return random.nextInt(max);
     }
@@ -112,58 +112,43 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         Map<String, List<Meal>> mealsByCategories = mealsByCategories();
 
         HashMap<String, Integer> request = new HashMap<>();
-        request.put("Chicken", 1);
+        request.put("Chicken", 3);
         request.put("Fish", 1);
         request.put("Meat", 2);
-        request.put("Vegetarian", 3);
-
-        System.out.println(request);
-
-        String randomCategory = (String) request.keySet().toArray()[new Random().nextInt(request.keySet().toArray().length)];
-        System.out.println( randomCategory + " total meals  " +  mealsByCategories.get(randomCategory).size());
+        request.put("Vegetarian", 1);
 
 
+        for (DaysOfTheWeek day : DaysOfTheWeek.values()) {
 
-        for (DaysOfTheWeek day : DaysOfTheWeek.values()){
-            // select random category String (key) -> weeklyMealOccurrence
+            String randomCategory = (String) request.keySet().toArray()[new Random().nextInt(request.keySet().toArray().length)];
+            int requestedNumber = request.get(randomCategory);
 
-            // from random category, select random meal  ↓
-            System.out.println(mealsByCategories.get(randomCategory));
-            for (Map.Entry<String, List<Meal>> entry : mealsByCategories.entrySet()){
-                if (entry.getKey().contains(randomCategory)){
-                    Meal randomMeal = entry.getValue().get(randomNumberGenerator(entry.getValue().size()));
+            if ((requestedNumber > 0) && (!weeklyPlan.containsKey(day))) {
+                for (Map.Entry<String, List<Meal>> entry : mealsByCategories.entrySet()) {
+                    if (entry.getKey().contains(randomCategory)) {
+
+                        Meal randomMeal = entry.getValue().get(randomNumberGenerator(entry.getValue().size()));
+                        weeklyPlan.putIfAbsent(day, randomMeal);
+
+                        requestedNumber--;
+                        break;
+                    }
                 }
             }
 
-
-            // find request of that category
-
-
-            // if weeklyMealOccurrence.getKey() .equals with mealsByCategories.getKey()
-
-
-            // get random meal -> using the mealByCategories
-//            weeklyMeals.put(day, randomMealByCategory);
-
-
-            // add day and meal
-            // remove meal from mealByCategories
+            request.replace(randomCategory, requestedNumber);
 
         }
-
-        System.out.println(weeklyPlan);
 
         return weeklyPlan;
 
     }
 
     @Override
-    public String test(){
+    public String test() {
         String testing = " Testing . . . ";
         return testing;
     }
-
-
 
 
 }
