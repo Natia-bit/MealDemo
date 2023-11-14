@@ -83,10 +83,8 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
     @Override
     public Map<String, List<Meal>> mealsByCategories() {
-
         List<Meal> allMeals = getMeals();
         Map<String, List<Meal>> mealsByCategoriesList = new HashMap<>();
-
         for (Meal meal : allMeals){
             mealsByCategoriesList.computeIfAbsent(meal.getCategory(), k -> new ArrayList<>()).add(meal);
         }
@@ -105,66 +103,57 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     }
 
 
-
     @Override
     // generate 7 random meals
     public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals() {
 
-        HashMap<DaysOfTheWeek, Meal> weeklyMeals = new HashMap<>();
+        HashMap<DaysOfTheWeek, Meal> weeklyPlan = new HashMap<>();
 
+        Map<String, List<Meal>> mealsByCategories = mealsByCategories();
 
-        HashMap<String, Integer> weeklyMealOccurrence = new HashMap<>();
+        HashMap<String, Integer> request = new HashMap<>();
+        request.put("Chicken", 1);
+        request.put("Fish", 1);
+        request.put("Meat", 2);
+        request.put("Vegetarian", 3);
 
-        /*for (Meal meal : allMeals){
-            if (!weeklyMealOccurrence.containsKey(meal.getCategory())){
-                weeklyMealOccurrence.put(meal.getCategory(), 1);
-            }
-        }*/
+        System.out.println(request);
 
-        weeklyMealOccurrence.put("Chicken", 1);
-        weeklyMealOccurrence.put("Fish", 1);
-        weeklyMealOccurrence.put("Meat", 2);
-        weeklyMealOccurrence.put("Vegetarian", 3);
-        System.out.println( "Weekly meal occurrences " + weeklyMealOccurrence);
+        String randomCategory = (String) request.keySet().toArray()[new Random().nextInt(request.keySet().toArray().length)];
+        System.out.println( randomCategory + " total meals  " +  mealsByCategories.get(randomCategory).size());
+
 
 
         for (DaysOfTheWeek day : DaysOfTheWeek.values()){
+            // select random category String (key) -> weeklyMealOccurrence
 
-            System.out.println(day);;
-
-        }
-
-
-
-
-        for (Map.Entry<String, Integer> entry : weeklyMealOccurrence.entrySet()){
-            String mealCat = entry.getKey(); //category: Chicken, fish, veg, etc
-            int weeklyOccurrence = entry.getValue(); // how many times in a week i ll have that
-//            System.out.println( "For loop: " + mealCat + " " + weeklyOccurrence);
-            Collections.shuffle(allMeals);
-            for (Meal meal : allMeals){
-                    if ((meal.getCategory().equals(mealCat)) && weeklyOccurrence > 0){
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.MONDAY, allMeals.get(0));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.TUESDAY, allMeals.get(1));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.WEDNESDAY, allMeals.get(2));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.THURSDAY, allMeals.get(3));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.FRIDAY, allMeals.get(4));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.SATURDAY, allMeals.get(5));
-                            weeklyMeals.putIfAbsent(DaysOfTheWeek.SUNDAY, allMeals.get(6));
-
-
-//                        System.out.println( "Category " + meal.getCategory() + " Meal name " + meal.getMealName());
-                        weeklyOccurrence --;
-                        weeklyMealOccurrence.put(mealCat, weeklyOccurrence);
-                    }
+            // from random category, select random meal  ↓
+            System.out.println(mealsByCategories.get(randomCategory));
+            for (Map.Entry<String, List<Meal>> entry : mealsByCategories.entrySet()){
+                if (entry.getKey().contains(randomCategory)){
+                    Meal randomMeal = entry.getValue().get(randomNumberGenerator(entry.getValue().size()));
                 }
+            }
+
+
+            // find request of that category
+
+
+            // if weeklyMealOccurrence.getKey() .equals with mealsByCategories.getKey()
+
+
+            // get random meal -> using the mealByCategories
+//            weeklyMeals.put(day, randomMealByCategory);
+
+
+            // add day and meal
+            // remove meal from mealByCategories
+
         }
 
+        System.out.println(weeklyPlan);
 
-        System.out.println(weeklyMeals);
-
-
-        return weeklyMeals;
+        return weeklyPlan;
 
     }
 
