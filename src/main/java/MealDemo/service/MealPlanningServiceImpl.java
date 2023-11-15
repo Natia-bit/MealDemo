@@ -92,11 +92,6 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         return mealsByCategoriesList;
     }
 
-    private int randomNumberGenerator(int min, int max) {
-        Random random = new Random();
-        return random.nextInt(min, max);
-    }
-
     private int randomNumberGenerator(int max) {
         Random random = new Random();
         return random.nextInt(max);
@@ -104,44 +99,47 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
 
     @Override
-    // generate 7 random meals
+    // generate 7 random meals per each day
     public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals() {
 
         HashMap<DaysOfTheWeek, Meal> weeklyPlan = new HashMap<>();
-
         Map<String, List<Meal>> mealsByCategories = mealsByCategories();
 
+        // create a method ↓
         HashMap<String, Integer> request = new HashMap<>();
-        request.put("Chicken", 3);
+        request.put("Chicken", 2);
         request.put("Fish", 1);
         request.put("Meat", 2);
-        request.put("Vegetarian", 1);
+        request.put("Vegetarian", 2);
 
 
         for (DaysOfTheWeek day : DaysOfTheWeek.values()) {
-
             String randomCategory = (String) request.keySet().toArray()[new Random().nextInt(request.keySet().toArray().length)];
-            int requestedNumber = request.get(randomCategory);
+            int requestNumber = request.get(randomCategory);
 
-            if ((requestedNumber > 0) && (!weeklyPlan.containsKey(day))) {
+            while (requestNumber == 0) {
+                randomCategory = (String) request.keySet().toArray()[new Random().nextInt(request.keySet().toArray().length)];
+                requestNumber = request.get(randomCategory);
+            }
+
+            if ((requestNumber > 0)) {
                 for (Map.Entry<String, List<Meal>> entry : mealsByCategories.entrySet()) {
                     if (entry.getKey().contains(randomCategory)) {
-
                         Meal randomMeal = entry.getValue().get(randomNumberGenerator(entry.getValue().size()));
                         weeklyPlan.putIfAbsent(day, randomMeal);
-
-                        requestedNumber--;
+                        requestNumber--;
+                        if (!mealsByCategories.get(randomCategory).isEmpty()) {
+                            mealsByCategories.get(randomCategory).remove(randomMeal);
+                        }
                         break;
                     }
                 }
             }
-
-            request.replace(randomCategory, requestedNumber);
-
+            request.replace(randomCategory, requestNumber);
         }
 
-        return weeklyPlan;
 
+        return weeklyPlan;
     }
 
     @Override
