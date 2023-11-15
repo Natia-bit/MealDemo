@@ -86,10 +86,12 @@ public class MealPlanningRESTController {
         return mealPlanningServiceImpl.generateWeeklyMeals();
     }
 
-    @GetMapping("/meals/testing")
-    public String testing(){
-        return mealPlanningServiceImpl.test();
+
+    @PutMapping("/meals/request")
+    public HashMap<String, Integer> requestLogForMeals(@RequestBody HashMap<String, Integer> userInput){
+        return mealPlanningServiceImpl.requestLog(userInput);
     }
+
 
 }
 

@@ -92,6 +92,8 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         return mealsByCategoriesList;
     }
 
+
+
     private int randomNumberGenerator(int max) {
         Random random = new Random();
         return random.nextInt(max);
@@ -107,10 +109,12 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
         // create a method ↓
         HashMap<String, Integer> request = new HashMap<>();
-        request.put("Chicken", 2);
-        request.put("Fish", 1);
-        request.put("Meat", 2);
-        request.put("Vegetarian", 2);
+//        request.put("Chicken", 2);
+//        request.put("Fish", 1);
+//        request.put("Meat", 2);
+//        request.put("Vegetarian", 2);
+
+        // check if the request number is less than the recipes
 
 
         for (DaysOfTheWeek day : DaysOfTheWeek.values()) {
@@ -143,9 +147,23 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     }
 
     @Override
-    public String test() {
-        String testing = " Testing . . . ";
-        return testing;
+    public HashMap<String, Integer> requestLog(HashMap<String, Integer> userInput) {
+        HashMap<String, Integer> request = new HashMap<>(userInput);
+
+        int sumRequest = 0;
+        for (Integer requestNumber : request.values()){
+            sumRequest += requestNumber;
+        }
+
+        if (sumRequest < DaysOfTheWeek.values().length){
+            System.out.println("Error: missing some days");
+        } else if (sumRequest > DaysOfTheWeek.values().length){
+            System.out.println("Error: Too many days assigned");
+        } else {
+            System.out.println("All recipes add up!");
+        }
+
+        return request;
     }
 
 
