@@ -93,7 +93,6 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     }
 
 
-
     private int randomNumberGenerator(int max) {
         Random random = new Random();
         return random.nextInt(max);
@@ -120,7 +119,8 @@ public class MealPlanningServiceImpl implements MealPlanningService {
             int requestNumber = request.get(randomCategory);
 
             List<Meal> meal = mealsByCategories.get(randomCategory);
-            Meal randomMeal = meal.get(randomNumberGenerator(meal.size()));
+
+            Meal randomMeal = meal.get(randomNumberGenerator(mealsByCategories.get(randomCategory).size()));
             weeklyPlan.putIfAbsent(day, randomMeal);
 
             requestNumber--;
@@ -130,11 +130,10 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
             if (requestNumber == 0) {
                 request.remove(randomCategory);
+            } else {
+                request.replace(randomCategory, requestNumber);
             }
-
-            request.replace(randomCategory, requestNumber);
         }
-
 
         return weeklyPlan;
     }

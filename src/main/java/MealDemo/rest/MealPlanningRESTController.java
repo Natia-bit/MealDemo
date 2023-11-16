@@ -89,7 +89,6 @@ public class MealPlanningRESTController {
         for (int requestNumber : userInput.values()){
             sumRequest += requestNumber;
         }
-        System.out.println(sumRequest);
 
         if (sumRequest < 7){
             System.out.println("Error: missing some days");
