@@ -102,15 +102,17 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
     @Override
     // generate 7 random meals per each day
-    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals() {
+    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals(HashMap<String, Integer> userInput) {
         HashMap<DaysOfTheWeek, Meal> weeklyPlan = new HashMap<>();
         Map<String, List<Meal>> mealsByCategories = mealsByCategories();
 
-        HashMap<String, Integer> request = new HashMap<>();
-        request.put("Chicken", 2);
-        request.put("Fish", 1);
-        request.put("Meat", 2);
-        request.put("Vegetarian", 2);
+        HashMap<String, Integer> request = new HashMap<>(userInput);
+        if (request.isEmpty()){
+            request.put("Chicken", 2);
+            request.put("Fish", 1);
+            request.put("Meat", 2);
+            request.put("Vegetarian", 2);
+        }
 
         for (DaysOfTheWeek day : DaysOfTheWeek.values()) {
             String randomCategory = (String) request.keySet().toArray()[new Random().nextInt(request.keySet().toArray().length)];

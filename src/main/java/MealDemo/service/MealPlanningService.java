@@ -23,7 +23,7 @@ public interface MealPlanningService {
 
     Map<String, List<Meal>> mealsByCategories();
 
-    HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals();
+    HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals(HashMap<String, Integer> userInput);
 
     HashMap<String, Integer> requestLog(HashMap<String, Integer> userInput);
 

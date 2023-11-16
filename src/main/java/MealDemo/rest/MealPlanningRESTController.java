@@ -82,16 +82,9 @@ public class MealPlanningRESTController {
     }
 
     @GetMapping("/meals/weekly-menu")
-    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals(){
-        return mealPlanningServiceImpl.generateWeeklyMeals();
+    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals(HashMap<String, Integer> userInput){
+        return mealPlanningServiceImpl.generateWeeklyMeals(userInput);
     }
-
-
-    @PutMapping("/meals/request")
-    public HashMap<String, Integer> requestLogForMeals(@RequestBody HashMap<String, Integer> userInput){
-        return mealPlanningServiceImpl.requestLog(userInput);
-    }
-
 
 }
 
