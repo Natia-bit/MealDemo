@@ -11,6 +11,9 @@ CREATE TABLE meals (
     PRIMARY KEY (id)
 );
 
+
+
+
 CREATE TABLE frequency (
     id INTEGER NOT NULL AUTO_INCREMENT,
     times_used INTEGER DEFAULT 0,
