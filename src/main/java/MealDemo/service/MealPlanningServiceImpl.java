@@ -120,12 +120,12 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
             List<Meal> meal = mealsByCategories.get(randomCategory);
 
-            Meal randomMeal = meal.get(randomNumberGenerator(mealsByCategories.get(randomCategory).size()));
+            Meal randomMeal = meal.get(randomNumberGenerator(meal.size()));
             weeklyPlan.putIfAbsent(day, randomMeal);
-
             requestNumber--;
-            if (!mealsByCategories.get(randomCategory).isEmpty()) {
-                mealsByCategories.get(randomCategory).remove(randomMeal);
+
+            if (!meal.isEmpty()) {
+                meal.remove(randomMeal);
             }
 
             if (requestNumber == 0) {
