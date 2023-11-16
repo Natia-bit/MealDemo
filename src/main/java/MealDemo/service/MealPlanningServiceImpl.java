@@ -107,7 +107,7 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         Map<String, List<Meal>> mealsByCategories = mealsByCategories();
 
         HashMap<String, Integer> request = new HashMap<>(userInput);
-        if (request.isEmpty()){
+        if (request.isEmpty()) {
             request.put("Chicken", 2);
             request.put("Fish", 1);
             request.put("Meat", 2);
@@ -115,29 +115,23 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         }
 
         for (DaysOfTheWeek day : DaysOfTheWeek.values()) {
-            String randomCategory = (String) request.keySet().toArray()[new Random().nextInt(request.keySet().toArray().length)];
+            String[] categories = request.keySet().toArray(new String[request.size()]);
+            String randomCategory = categories[new Random().nextInt(categories.length)];
             int requestNumber = request.get(randomCategory);
 
-            while (requestNumber == 0) {
-                randomCategory = (String) request.keySet().toArray()[new Random().nextInt(request.keySet().toArray().length)];
-                requestNumber = request.get(randomCategory);
+            List<Meal> meal = mealsByCategories.get(randomCategory);
+            Meal randomMeal = meal.get(randomNumberGenerator(meal.size()));
+            weeklyPlan.putIfAbsent(day, randomMeal);
+
+            requestNumber--;
+            if (!mealsByCategories.get(randomCategory).isEmpty()) {
+                mealsByCategories.get(randomCategory).remove(randomMeal);
             }
 
-            if ((requestNumber > 0)) {
-                for (Map.Entry<String, List<Meal>> entry : mealsByCategories.entrySet()) {
-                    if (entry.getKey().contains(randomCategory)) {
-                        Meal randomMeal = entry.getValue().get(randomNumberGenerator(entry.getValue().size()));
-                        weeklyPlan.putIfAbsent(day, randomMeal);
-
-                        // update frequency?
-                        requestNumber--;
-                        if (!mealsByCategories.get(randomCategory).isEmpty()) {
-                            mealsByCategories.get(randomCategory).remove(randomMeal);
-                        }
-                        break;
-                    }
-                }
+            if (requestNumber == 0) {
+                request.remove(randomCategory);
             }
+
             request.replace(randomCategory, requestNumber);
         }
 
@@ -147,22 +141,7 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
     @Override
     public HashMap<String, Integer> requestLog(HashMap<String, Integer> userInput) {
-        HashMap<String, Integer> request = new HashMap<>(userInput);
-
-        int sumRequest = 0;
-        for (Integer requestNumber : request.values()){
-            sumRequest += requestNumber;
-        }
-
-        if (sumRequest < DaysOfTheWeek.values().length){
-            System.out.println("Error: missing some days");
-        } else if (sumRequest > DaysOfTheWeek.values().length){
-            System.out.println("Error: Too many days assigned");
-        } else {
-            System.out.println("All recipes add up!");
-        }
-
-        return request;
+        return new HashMap<>(userInput);
     }
 
 
