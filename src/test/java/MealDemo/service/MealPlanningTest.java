@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @RunWith(SpringRunner.class)
@@ -32,15 +33,26 @@ public class MealPlanningTest {
     @Before
     public void setUp() {
         mealsTestData = new MealPlanningServiceImpl(mealRepository, frequencyRepository);
-        mealsTestData.saveNewMeal(new Meal("Chicken Tacos", "Chicken"));
-        mealsTestData.saveNewMeal(new Meal("Beef Burger", "Beef"));
-        mealsTestData.saveNewMeal(new Meal("Fish and Chips", "Fish"));
-        mealsTestData.saveNewMeal(new Meal("Black Bean Enchiladas", "Veggies"));
+        mealsTestData.saveNewMeal(new Meal("Chicken pie", "Chicken"));
+        mealsTestData.saveNewMeal(new Meal("Beef Burger", "Meat"));
+        mealsTestData.saveNewMeal(new Meal("Fish bake", "Fish"));
+        mealsTestData.saveNewMeal(new Meal("Bean Enchiladas", "Vegetarian"));
+
+        mealsTestData.saveNewMeal(new Meal("Chicken ozro", "Chicken"));
+        mealsTestData.saveNewMeal(new Meal("Chili con carne", "Meat"));
+        mealsTestData.saveNewMeal(new Meal("Tuna salad", "Fish"));
+        mealsTestData.saveNewMeal(new Meal("Falafel with rice", "Vegetarian"));
+
+        mealsTestData.saveNewMeal(new Meal("Creamy Tuscan chicken", "Chicken"));
+        mealsTestData.saveNewMeal(new Meal("Steak and buckwheat", "Meat"));
+        mealsTestData.saveNewMeal(new Meal("Smoky chorizo salmon", "Fish"));
+        mealsTestData.saveNewMeal(new Meal("Gnocchi & tomato bake", "Vegetarian"));
+
     }
 
     @Test
     public void whenSaveNewMealChicken_ThenReturnMealChicken(){
-        assertEquals(mealsTestData.getMeals().get(0).getMealName(), "Chicken Tacos");
+        assertEquals(mealsTestData.getMeals().get(0).getMealName(), "Chicken pie");
         assertEquals(mealsTestData.getMeals().get(0).getCategory(), "Chicken");
         assertEquals(mealsTestData.getMeals().get(0).getId(), 1);
     }
@@ -92,6 +104,55 @@ public class MealPlanningTest {
         mealsTestData.deleteMeal(2);
         assertEquals(mealsTestData.findMealById(2), Optional.empty());
 
-        assertEquals(mealsTestData.getMeals().get(0).getMealName(), "Chicken Tacos");
+        assertEquals(mealsTestData.getMeals().get(0).getMealName(), "Chicken pie");
     }
+
+
+    @Test
+    public void whenCallingMealsByCategoryChicken_ShouldReturnSameCategoryChicken(){
+        Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
+        assertTrue(mealsByCategories.containsKey("Chicken"));
+    }
+
+    @Test
+    public void whenCallingMealsByCategoryMeat_ShouldReturnSameCategoryMeat(){
+        Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
+        assertTrue(mealsByCategories.containsKey("Meat"));
+    }
+
+    @Test
+    public void whenCallingMealsByCategoryFish_ShouldReturnSameCategoryFish(){
+        Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
+        assertTrue(mealsByCategories.containsKey("Fish"));
+    }
+
+    @Test
+    public void whenCallingMealsByCategoryVegetarian_ShouldReturnSameCategoryVegetarian(){
+        Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
+        assertTrue(mealsByCategories.containsKey("Vegetarian"));
+    }
+
+
+    @Test
+    public void whenCallingMealsByCategoriesUnknown_ShouldReturnSameCategories(){
+        Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
+        String unknownKey = mealsByCategories.keySet().iterator().next();
+        assertTrue(mealsByCategories.containsKey(unknownKey));
+    }
+
+
+    @Test
+    public void whenCallingMealsByCategoriesWithTypo_ShouldNotReturnCategories(){
+        Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
+        assertFalse(mealsByCategories.containsKey("Fash"));
+
+    }
+
+
+
+
+
+
+
+
 }

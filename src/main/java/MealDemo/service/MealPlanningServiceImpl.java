@@ -140,6 +140,7 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
     @Override
     public HashMap<String, Integer> requestLog(HashMap<String, Integer> userInput) {
+
         return new HashMap<>(userInput);
     }
 
