@@ -144,11 +144,17 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         HashMap<String, Integer> userEntry = new HashMap<>(userInput);
         Map<String, List<Meal>> mealsByCategories = mealsByCategories();
 
-        // the two Type string match
+        // the two Type string match - checking categories match
+        for (String key : userEntry.keySet()){
+            if (!mealsByCategories.containsKey(key)){
+                System.out.println("Category " + key + " not found. Please check your input.");
+            }
 
-
-        // the integer from user input is not greater than of the lists size
-
+            // the integer from user input is not greater than of the lists size
+            if (mealsByCategories.get(key).size() < userEntry.get(key)){
+                System.out.println("Not enough receives available");
+            }
+        }
 
         return userEntry;
     }

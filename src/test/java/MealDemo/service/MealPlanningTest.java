@@ -229,10 +229,6 @@ public class MealPlanningTest {
         assertNotEquals(mealCategorySize, userDefined);
 
         assertEquals(mealsByCategories.get("Fish").size(), request.get("Fish"));
-
-
-
-
     }
 
 

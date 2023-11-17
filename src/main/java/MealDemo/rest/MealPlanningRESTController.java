@@ -84,18 +84,20 @@ public class MealPlanningRESTController {
     @GetMapping("/meals/weekly-menu")
     public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals( @RequestBody HashMap<String, Integer> userInput){
 
-        int sumRequest = 0;
-
-        for (int requestNumber : userInput.values()){
-            sumRequest += requestNumber;
-        }
-
-        if (sumRequest < 7){
-            System.out.println("Error: missing some days");
-        } else if (sumRequest > 7){
-            System.out.println("Error: Too many days assigned");
+        if (!userInput.isEmpty()){
+            int sumRequest = 0;
+            for (int requestNumber : userInput.values()){
+                sumRequest += requestNumber;
+            }
+            if (sumRequest < 7){
+                System.out.println("Error: missing some days");
+            } else if (sumRequest > 7){
+                System.out.println("Error: Too many days assigned");
+            } else {
+                System.out.println("All recipes add up!");
+            }
         } else {
-            System.out.println("All recipes add up!");
+            System.out.println("Using default values");
         }
 
         return mealPlanningServiceImpl.generateWeeklyMeals(userInput);
