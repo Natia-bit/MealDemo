@@ -122,7 +122,7 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
             Meal randomMeal = meal.get(randomNumberGenerator(meal.size()));
             weeklyPlan.putIfAbsent(day, randomMeal);
-            requestNumber--;
+            requestNumber --;
 
             if (!meal.isEmpty()) {
                 meal.remove(randomMeal);
@@ -140,7 +140,6 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
     @Override
     public HashMap<String, Integer> requestLog(HashMap<String, Integer> userInput) {
-
         return new HashMap<>(userInput);
     }
 

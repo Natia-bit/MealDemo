@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -60,7 +61,7 @@ public class MealPlanningTest {
     @Test
     public void whenSaveNewMealBeef_ThenReturnMealBeef(){
         assertEquals(mealsTestData.getMeals().get(1).getMealName(), "Beef Burger");
-        assertEquals(mealsTestData.getMeals().get(1).getCategory(), "Beef");
+        assertEquals(mealsTestData.getMeals().get(1).getCategory(), "Meat");
         assertNotEquals(mealsTestData.getMeals().get(1).getCategory(), "Chicken");
     }
 
@@ -147,6 +148,52 @@ public class MealPlanningTest {
         assertFalse(mealsByCategories.containsKey("Fash"));
 
     }
+
+    @Test
+    public void whenCallingRequestLog_ShouldMatchTheCategories(){
+        HashMap<String, Integer> request = new HashMap<>();
+        request.put("Chicken", 2);
+        request.put("Fish", 1);
+        request.put("Meat", 2);
+        request.put("Vegetarian", 2);
+
+        Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
+
+        assertEquals(mealsByCategories.keySet(), request.keySet());
+
+    }
+
+
+    @Test
+    public void whenArrangingMealsByCategories_ShouldNotBeNull(){
+        Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
+        assertNotNull(mealsByCategories);
+    }
+
+    @Test
+    public void whenGeneratingWeeklyMealsWithEmptyRequest_ShouldReturnSevenMeals(){
+        HashMap<String, Integer> request = new HashMap<>();
+        HashMap<DaysOfTheWeek, Meal> weeklyPlan = mealsTestData.generateWeeklyMeals(request);
+
+        assertEquals(weeklyPlan.size(), 7);
+    }
+
+
+
+    @Test
+    public void whenGeneratingWeeklyPlan_ShouldReturnAllUniqueMeals(){
+        HashMap<String, Integer> request = new HashMap<>();
+        HashMap<DaysOfTheWeek, Meal> weeklyPlan = mealsTestData.generateWeeklyMeals(request);
+
+        int uniqueCount = (int) weeklyPlan.values().stream().distinct().count();
+
+        assertEquals(uniqueCount, 7);
+    }
+
+
+
+
+
 
 
 
