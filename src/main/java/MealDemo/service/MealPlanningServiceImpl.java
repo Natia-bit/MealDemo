@@ -140,7 +140,17 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
     @Override
     public HashMap<String, Integer> requestLog(HashMap<String, Integer> userInput) {
-        return new HashMap<>(userInput);
+
+        HashMap<String, Integer> userEntry = new HashMap<>(userInput);
+        Map<String, List<Meal>> mealsByCategories = mealsByCategories();
+
+        // the two Type string match
+
+
+        // the integer from user input is not greater than of the lists size
+
+
+        return userEntry;
     }
 
 

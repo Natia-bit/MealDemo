@@ -190,6 +190,51 @@ public class MealPlanningTest {
         assertEquals(uniqueCount, 7);
     }
 
+    @Test
+    public void whenUserInputsRequest_ShouldReturnNotReturnNull(){
+        HashMap<String, Integer> userInput = new HashMap<>();
+        userInput.put("Chicken", 3);
+        userInput.put("Fish", 1);
+        userInput.put("Vegetarian", 3);
+
+        HashMap<String, Integer> request = mealsTestData.requestLog(userInput);
+
+        assertNotNull(request);
+    }
+
+
+    @Test
+    public void whenUserInputsRequest_ShouldReturnSameRequest(){
+        HashMap<String, Integer> userInput = new HashMap<>();
+        userInput.put("Chicken", 3);
+        userInput.put("Fish", 1);
+        userInput.put("Vegetarian", 3);
+        HashMap<String, Integer> request = mealsTestData.requestLog(userInput);
+
+        assertEquals(request, userInput);
+    }
+
+
+    @Test
+    public void whenUserInputsRequestIsMoreThanRecipes_ShouldThrowError(){
+        HashMap<String, Integer> userInput = new HashMap<>();
+        Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
+
+        userInput.put("Fish", 3);
+        userInput.put("Vegetarian", 5);
+        HashMap<String, Integer> request = mealsTestData.requestLog(userInput);
+
+        int mealCategorySize = mealsByCategories.get("Vegetarian").size();
+        int userDefined = request.get("Vegetarian");
+        assertNotEquals(mealCategorySize, userDefined);
+
+        assertEquals(mealsByCategories.get("Fish").size(), request.get("Fish"));
+
+
+
+
+    }
+
 
 
 
