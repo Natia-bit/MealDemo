@@ -158,8 +158,6 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
         }
 
-
-
         return userEntry;
     }
 }
