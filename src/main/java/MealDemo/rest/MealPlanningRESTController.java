@@ -4,6 +4,7 @@ import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
 import MealDemo.service.DaysOfTheWeek;
 import MealDemo.service.MealPlanningServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -82,20 +83,19 @@ public class MealPlanningRESTController {
     }
 
     @GetMapping("/meals/weekly-menu")
-    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals( @RequestBody HashMap<String, Integer> userInput){
+    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals(@RequestBody HashMap<String, Integer> userInput){
 
         if (!userInput.isEmpty()){
+            System.out.println("Using custom values");
             int sumRequest = 0;
             for (int requestNumber : userInput.values()){
                 sumRequest += requestNumber;
             }
-            if (sumRequest < 7){
-                System.out.println("Error: missing some days");
-            } else if (sumRequest > 7){
-                System.out.println("Error: Too many days assigned");
-            } else {
-                System.out.println("All recipes add up!");
+
+            if (sumRequest != 7){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Request: incorrect number of days requested");
             }
+
         } else {
             System.out.println("Using default values");
         }

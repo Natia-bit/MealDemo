@@ -216,13 +216,13 @@ public class MealPlanningTest {
 
 
     @Test
-    public void whenUserInputsRequestIsMoreThanRecipes_ShouldThrowError(){
-        HashMap<String, Integer> userInput = new HashMap<>();
+    public void whenUserInputsRequestIsMoreThanRecipes_ShouldShowWarning(){
+        HashMap<String, Integer> userEntry = new HashMap<>();
         Map<String, List<Meal>> mealsByCategories = mealsTestData.mealsByCategories();
 
-        userInput.put("Fish", 3);
-        userInput.put("Vegetarian", 5);
-        HashMap<String, Integer> request = mealsTestData.requestLog(userInput);
+        userEntry.put("Fish", 3);
+        userEntry.put("Vegetarian", 5);
+        HashMap<String, Integer> request = mealsTestData.requestLog(userEntry);
 
         int mealCategorySize = mealsByCategories.get("Vegetarian").size();
         int userDefined = request.get("Vegetarian");
@@ -232,7 +232,16 @@ public class MealPlanningTest {
     }
 
 
+    @Test
+    public void whenUserInputUnknownCategory_ShouldShowWarning(){
+        HashMap<String, Integer> userEntry = new HashMap<>();
+        userEntry.put("Chickan", 2);
+        userEntry.put("Vegetarian", 5);
+        HashMap<String, Integer> request = mealsTestData.requestLog(userEntry);
 
+        assertFalse(request.entrySet().containsAll(userEntry.keySet()));
+
+    }
 
 
 
