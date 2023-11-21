@@ -100,64 +100,39 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
 
     @Override
-    // generate 7 random meals per each day
-    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals(HashMap<String, Integer> userInput) {
+    // generate 7 random unique meals per each day
+    public Map<DaysOfTheWeek, Meal> generateWeeklyMeals(HashMap<String, Integer> userInput) {
         HashMap<DaysOfTheWeek, Meal> weeklyPlan = new HashMap<>();
         Map<String, List<Meal>> mealsByCategories = mealsByCategories();
-
         HashMap<String, Integer> request = new HashMap<>(userInput);
-        if (request.isEmpty()) {
-            request.put("Chicken", 2);
-            request.put("Fish", 1);
-            request.put("Meat", 2);
-            request.put("Vegetarian", 2);
-        }
+
+        String[] categories = request.keySet().toArray(new String[request.size()]);
 
         for (DaysOfTheWeek day : DaysOfTheWeek.values()) {
-            String[] categories = request.keySet().toArray(new String[request.size()]);
             String randomCategory = categories[new Random().nextInt(categories.length)];
             int requestNumber = request.get(randomCategory);
 
-            List<Meal> meal = mealsByCategories.get(randomCategory);
+            List<Meal> meals = mealsByCategories.get(randomCategory);
 
-            Meal randomMeal = meal.get(randomNumberGenerator(meal.size()));
+            Meal randomMeal = meals.get(randomNumberGenerator(meals.size()));
             weeklyPlan.putIfAbsent(day, randomMeal);
             requestNumber --;
 
-            if (!meal.isEmpty()) {
-                meal.remove(randomMeal);
+            if (!meals.isEmpty()) {
+                meals.remove(randomMeal);
             }
+
 
             if (requestNumber == 0) {
                 request.remove(randomCategory);
+                categories = request.keySet().toArray(new String[request.size()]);
             } else {
                 request.replace(randomCategory, requestNumber);
             }
         }
 
+
         return weeklyPlan;
     }
 
-    @Override
-    public HashMap<String, Integer> requestLog(HashMap<String, Integer> userInput) {
-
-        HashMap<String, Integer> userEntry = new HashMap<>(userInput);
-        Map<String, List<Meal>> mealsByCategories = mealsByCategories();
-
-
-        for (String key : userEntry.keySet()){
-            if (!mealsByCategories.containsKey(key)){
-                System.out.println("Category " + key.toUpperCase() + " not found. Please check your input.");
-                userEntry.remove(key);
-                break;
-            }
-
-            if (mealsByCategories.get(key).size() < userEntry.get(key)){
-                System.out.println("Not enough receives available");
-            }
-
-        }
-
-        return userEntry;
-    }
 }

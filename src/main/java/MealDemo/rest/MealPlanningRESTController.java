@@ -83,7 +83,7 @@ public class MealPlanningRESTController {
     }
 
     @GetMapping("/meals/weekly-menu")
-    public HashMap<DaysOfTheWeek, Meal> generateWeeklyMeals(@RequestBody HashMap<String, Integer> userInput){
+    public Map<DaysOfTheWeek, Meal> generateWeeklyMeals(@RequestBody HashMap<String, Integer> userInput){
 
         if (!userInput.isEmpty()){
             System.out.println("Using custom values");
@@ -93,11 +93,15 @@ public class MealPlanningRESTController {
             }
 
             if (sumRequest != 7){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Request: incorrect number of days requested");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Request: incorrect number of meals requested. You should request 7 meals. One for each day of the week.");
             }
 
         } else {
             System.out.println("Using default values");
+            userInput.put("Chicken", 2);
+            userInput.put("Fish", 1);
+            userInput.put("Meat", 2);
+            userInput.put("Vegetarian", 2);
         }
 
         return mealPlanningServiceImpl.generateWeeklyMeals(userInput);
