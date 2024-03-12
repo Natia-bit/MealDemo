@@ -4,7 +4,9 @@ import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
 import MealDemo.service.DaysOfTheWeek;
 import MealDemo.service.MealPlanningServiceImpl;
+import ch.qos.logback.core.model.Model;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,14 +17,20 @@ import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-@RestController
-@RequestMapping("/home")
+//@RestController
+@Controller
+@RequestMapping("")
 public class MealPlanningRESTController {
 
     private MealPlanningServiceImpl mealPlanningServiceImpl;
 
     public MealPlanningRESTController(MealPlanningServiceImpl mealPlanningServiceImpl) {
         this.mealPlanningServiceImpl = mealPlanningServiceImpl;
+    }
+
+    @GetMapping("/home")
+    public String viewHomePage(Model theModel){
+        return "index.html";
     }
 
 
