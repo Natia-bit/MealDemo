@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meal Home Plage</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <ul>
+        <li>
+          <a href="meals.html" class="navOptions">Meals</a>
+        </li>
+        <span class="separator">|</span>
+        <li>
+          <a href="weeklyPlan" class="navOptions">Weekly Meal Plan</a>
+        </li>
+      </ul>
+
+      <svg
+        xmlns="//www.w3.org/2000/svg"
+        version="1.1"
+        class="svg-filters"
+        style="display: none"
+      >
+        <defs>
+          <filter id="marker-shape">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0 0.15"
+              numOctaves="1"
+              result="warp"
+            />
+            <feDisplacementMap
+              xChannelSelector="R"
+              yChannelSelector="G"
+              scale="30"
+              in="SourceGraphic"
+              in2="warp"
+            />
+          </filter>
+        </defs>
+      </svg>
+    </nav>
+
+    <section class="intro">
+      <div class="intoBorder">
+        <h1>Welcome to Meal Planner</h1>
+
+        <p>
+          Tired of trying to figure out what you will make today for dinner?
+          <br />
+          Or tomorrow? <br />Or the day after?
+        </p>
+        <p>Strss no more, Meal Planner is here to figure it out for you.</p>
+      </div>
+    </section>
+
+    <section class="mainSection">
+      <h2>How to use it:</h2>
+      <ul class="borderBox">
+        <li>
+          <h3>01</h3>
+          <h4>Step 1:</h4>
+          <p>Add some of your deliecious meals by name and category</p>
+          <button class="sketchy">Add a meal</button>
+        </li>
+        <li>
+          <h3>02</h3>
+          <h4>Step 2:</h4>
+          <p>
+            Go to the Meal Planner and based on your meals a unique weekly meal
+            will be generated!
+          </p>
+          <button class="sketchy">Plan my week</button>
+        </li>
+
+        <li>
+          <h3>03</h3>
+          <h4>Step 3:</h4>
+          <p>Done!</p>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
