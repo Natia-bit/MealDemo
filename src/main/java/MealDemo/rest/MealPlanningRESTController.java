@@ -4,9 +4,7 @@ import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
 import MealDemo.service.DaysOfTheWeek;
 import MealDemo.service.MealPlanningServiceImpl;
-import ch.qos.logback.core.model.Model;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,8 +15,7 @@ import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-//@RestController
-@Controller
+@RestController
 @RequestMapping("")
 public class MealPlanningRESTController {
 
@@ -28,23 +25,16 @@ public class MealPlanningRESTController {
         this.mealPlanningServiceImpl = mealPlanningServiceImpl;
     }
 
-    @GetMapping("/home")
-    public String viewHomePage(Model theModel){
-        return "index.html";
-    }
 
-
-    @GetMapping("/meals")
+    @GetMapping("/api/meals")
     public List<Meal> viewAllMeals(){
         return mealPlanningServiceImpl.getMeals();
     }
-
 
     @GetMapping("meals/frequencies")
     public List<Frequency> viewAllFreq(){
         return mealPlanningServiceImpl.getFrequencies();
     }
-
 
     @GetMapping("/meals/{mealId}")
     public Meal findByMealId(@PathVariable int mealId){
@@ -62,7 +52,7 @@ public class MealPlanningRESTController {
     }
 
 
-    @PostMapping("/meals")
+    @PostMapping("/api/meals")
     public void addMealsWithFreq(@RequestBody Meal meal){
          mealPlanningServiceImpl.saveNewMeal(meal);
     }
