@@ -27,12 +27,13 @@ getMealsData().then((data) => {
     <tr>
       <td>${meal.mealName}</td>
       <td>${meal.category}</td>
-      <td align="center"><button id="edit"><span class="material-symbols-outlined">
-      edit
-      </span></button>
-      <button id="delete"><span class="material-symbols-outlined">
-      delete
-      </span></button> 
+      <td align="center">
+        <button id="editBtn"><span class="material-symbols-outlined">
+        edit
+        </span></button>
+        <button id="deleteBtn"><span class="material-symbols-outlined">
+        delete
+        </span></button> 
       </td>
     </tr>
   `;
@@ -45,4 +46,15 @@ getMealsData().then((data) => {
 
   const dataTable = document.getElementById("dataTable");
   dataTable.innerHTML = table;
+
+  const deleteBtn = document.querySelector("#deleteBtn");
+  deleteBtn.addEventListener("click", function () {
+    if (window.confirm("Do you really want to delete?")) {
+      console.log("Deletion simulation succeeded");
+      // call delete api
+      // gererateTable
+    } else {
+      console.log("Aborted");
+    }
+  });
 });
