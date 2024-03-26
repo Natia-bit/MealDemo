@@ -63,7 +63,7 @@ public class MealPlanningRESTController {
         mealPlanningServiceImpl.deleteMeal(mealId);
     }
 
-    @PutMapping("/meals/{mealId}")
+    @PutMapping("api/meals/{mealId}")
     public void updateMeal(@RequestBody Meal theMeal, @PathVariable int mealId){
         Optional<Meal> tempMeal = mealPlanningServiceImpl.findMealById(mealId);
 

@@ -78,7 +78,7 @@
         </div>
         <div class="column2">
           <div class="addNew">
-            <form action="/api/meals" method="post">
+            <form action="/api/meals" method="post" id="newMealForm">
               <h2>New meal</h2>
               <ul>
                 <li>
@@ -87,12 +87,19 @@
                   /></label>
                 </li>
                 <li>
-                  <label for="category">
-                    Category <input type="text" id="category"
-                  /></label>
+                  <label for="category-select">Category</label>
+                  <select name="mealcategory" id="categoryMenu">
+                    <option value="">Choose an option</option>
+                    <option value="Chicken">Chicken</option>
+                    <option value="Fish">Fish</option>
+                    <option value="Beef">Beef</option>
+                    <option value="Pork">Pork</option>
+                    <option value="Meat">Meat</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                  </select>
                 </li>
               </ul>
-              <button type="submit">Save</button>
+              <button type="submit" id="submitBtn">Save</button>
             </form>
           </div>
         </div>

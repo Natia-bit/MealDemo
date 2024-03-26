@@ -1,14 +1,14 @@
+// MEALS TABLE
 async function getMealsData() {
   try {
     const response = await axios.get("/api/meals");
-    // console.log("The responce is: ", response.data);
     return response.data;
   } catch (error) {
     console.error(error);
   }
 }
 
-getMealsData().then((data) => {
+function createMealsTable(mealData) {
   let table = '<table style="border-collapse: collapse;">';
 
   table += `
@@ -22,7 +22,7 @@ getMealsData().then((data) => {
   <tbody>
 `;
 
-  data.forEach((meal) => {
+  mealData.forEach((meal) => {
     table += `
     <tr>
       <td>${meal.mealName}</td>
@@ -33,7 +33,7 @@ getMealsData().then((data) => {
         </span></button>
         <button id="deleteBtn"><span class="material-symbols-outlined">
         delete
-        </span></button> 
+        </span></button>
       </td>
     </tr>
   `;
@@ -46,15 +46,66 @@ getMealsData().then((data) => {
 
   const dataTable = document.getElementById("dataTable");
   dataTable.innerHTML = table;
+}
+
+getMealsData().then((data) => {
+  createMealsTable(data);
 
   const deleteBtn = document.querySelector("#deleteBtn");
   deleteBtn.addEventListener("click", function () {
     if (window.confirm("Do you really want to delete?")) {
-      console.log("Deletion simulation succeeded");
+      console.log(`Deletion simulation succeeded of meal with`);
+      // find id
       // call delete api
       // gererateTable
+      getMealsData().then((data) => {
+        createMealsTable(data);
+      });
     } else {
       console.log("Aborted");
     }
   });
+
+  const editBtn = document.querySelector("#editBtn");
+  editBtn.addEventListener("ckick", function () {});
+});
+
+// ADD MEW MEALS
+async function addNewMeal() {
+  try {
+    const mealNameInput = document.querySelector("#mealName").value;
+    const categoryInput = document.querySelector("#category").value;
+
+    axios.post(
+      "/api/meals",
+      {
+        mealName: mealNameInput,
+        category: categoryInput,
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    mealNameInput = "";
+    categoryInput = "";
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+const form = document.querySelector("#newMealForm");
+// const mealNameInput = document.querySelector("#mealName");
+// const categoryInput = document.querySelector("#category");
+// const submitBtn = document.getElementById("submitNewMeal");
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  addNewMeal()
+    .then(
+      getMealsData().then((data) => {
+        createMealsTable(data);
+      })
+    )
+    .catch((err) => console.log(err));
 });
