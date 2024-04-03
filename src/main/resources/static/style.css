@@ -265,7 +265,7 @@ th {
 .addNew {
   background: #ffc;
   display: block;
-  width: 80%;
+  width: 350px;
   min-width: 250px;
   padding: 10px;
   position: sticky;
@@ -290,11 +290,12 @@ label {
   flex-direction: column;
   flex-flow: column wrap;
   margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 #mealName,
-#categoryMenu {
-  width: 80%;
+#mealCategory {
+  width: 250px;
 }
 
 #submitBtn {
@@ -321,7 +322,7 @@ label {
   touch-action: manipulation;
 }
 
-#categoryMenu,
+#mealCategory,
 #mealName {
   background-color: transparent;
   background-position: 0 90%;

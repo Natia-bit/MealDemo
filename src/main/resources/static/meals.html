@@ -82,13 +82,17 @@
               <h2>New meal</h2>
               <ul>
                 <li>
-                  <label for="mealName">
-                    Name <input type="text" id="mealName"
+                  <label for="mealName"
+                    >Name<input
+                      type="text"
+                      name="mealName"
+                      id="mealName"
+                      autocomplete="off"
                   /></label>
                 </li>
                 <li>
-                  <label for="category-select">Category</label>
-                  <select name="mealcategory" id="categoryMenu">
+                  <label for="mealCategory">Category</label>
+                  <select name="mealCategory" id="mealCategory">
                     <option value="">Choose an option</option>
                     <option value="Chicken">Chicken</option>
                     <option value="Fish">Fish</option>
