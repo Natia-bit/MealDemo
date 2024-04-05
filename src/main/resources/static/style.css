@@ -262,6 +262,10 @@ th {
   padding: 1rem;
 }
 
+#doneBtn {
+  display: none;
+}
+
 .addNew {
   background: #ffc;
   display: block;

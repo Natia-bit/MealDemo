@@ -31,4 +31,5 @@ public class MealPlanningWEBController {
     public String deleteMeal(int mealId){
         return "meals.html";
     }
+
 }

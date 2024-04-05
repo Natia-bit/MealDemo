@@ -15,14 +15,28 @@ function createMealsTable(mealData) {
   mealData.forEach((meal) => {
     table += `
     <tr>
-    <td>${meal.mealName}</td>
-    <td>${meal.category}</td>
+    <td class="name">${meal.mealName}</td>
+    <td class="category">${meal.category}</td>
     <td align="center">
-      <button id="editBtn">
-        <span class="material-symbols-outlined"> edit </span>
+      <button id="editBtn"
+      type="button"
+
+      aria-hidden="true"
+      onclick="editMeal(this);">
+      <span id="edit" class="material-symbols-outlined"> edit </span>
       </button>
     </td>
     <td>
+    <td align="center">
+    <button id="doneBtn"
+    type="button"
+
+    aria-hidden="true"
+    onclick="updateMeal(this);">
+    <span id="done" class="material-symbols-outlined"> done </span>
+    </button>
+  </td>
+  <td>
     <button id="deleteBtn"
       type="button"
       class="close"
@@ -56,7 +70,6 @@ async function getMealsData() {
 
 async function loadTable() {
   getMealsData().then((data) => {
-    console.log("In loading table");
     return createMealsTable(data);
   });
 }
@@ -104,6 +117,41 @@ async function deleteMeal(el) {
   }
 }
 
+async function editMeal(el) {
+  getMealsData().then((data) => {
+    console.log("ping");
+    const row = el.parentNode.parentNode.rowIndex;
+    console.log(`Index: ${row - 1} | Table row: ${row}`);
+    const meal = data.at(row - 1);
+    // console.log(`ID: ${meal.id}`);
+    // console.log(`Name: ${meal.mealName} Category: ${meal.category}`);
+
+    document.querySelector("#editBtn").style.display = "none";
+    document.querySelector("#doneBtn").style.display = "block";
+
+    let mealName = document.querySelector(".name");
+    console.log(`meal name ${mealName.innerHTML}`);
+
+    mealName =
+      "<input type='text' id='nameIn" + "' value='" + mealName.innerHTML + "'>";
+
+    // let mealName = document.querySelector("#name");
+    // console.log(mealName.innerHTML);
+    // let mealNameData = mealName.innerHTML;
+
+    // mealName.innerHTML =
+    //   "<input type='text' id='nameIn" + "' value='" + mealNameData + "'>";
+  });
+}
+
+async function updateMeal(el) {
+  console.log("Upldate clicked");
+  const row = el.parentNode.parentNode.rowIndex;
+  alert("Done");
+  document.querySelector("#doneBtn").style.display = "none";
+  document.querySelector("#editBtn").style.display = "block";
+}
+
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
@@ -111,14 +159,18 @@ function capitalizeFirstLetter(string) {
 getMealsData().then((data) => {
   createMealsTable(data);
 
+  // EDIT
+  const editBtn = document.querySelector("#editBtn");
+  editBtn.addEventListener("click", function (e) {
+    editMeal(editBtn);
+  });
+
+  // DELETE
   const deleteBtn = document.querySelector("#deleteBtn");
   deleteBtn.addEventListener("click", () => {
     deleteMeal(deleteBtn);
   });
 });
-
-// const editBtn = document.querySelector("#editBtn");
-// editBtn.addEventListener("ckick", function () {});
 
 // ADD MEW MEALS
 const form = document.querySelector("#newMealForm");

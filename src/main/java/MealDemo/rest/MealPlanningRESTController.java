@@ -36,7 +36,7 @@ public class MealPlanningRESTController {
         return mealPlanningServiceImpl.getFrequencies();
     }
 
-    @GetMapping("/meals/{mealId}")
+    @GetMapping("api/meals/{mealId}")
     public Meal findByMealId(@PathVariable int mealId){
         Optional<Meal> tempMeal = mealPlanningServiceImpl.findMealById(mealId);
 
