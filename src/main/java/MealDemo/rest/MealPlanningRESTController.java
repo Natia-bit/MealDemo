@@ -80,7 +80,8 @@ public class MealPlanningRESTController {
         return mealPlanningServiceImpl.mealsByCategories();
     }
 
-    @GetMapping("/meals/weekly-menu")
+    @PostMapping("/api/weekly-plan")
+
     public Map<DaysOfTheWeek, Meal> generateWeeklyMeals(@RequestBody HashMap<String, Integer> userInput){
 
         if (!userInput.isEmpty()){

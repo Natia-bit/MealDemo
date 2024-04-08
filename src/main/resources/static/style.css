@@ -262,7 +262,7 @@ th {
   padding: 1rem;
 }
 
-#doneBtn {
+#done {
   display: none;
 }
 
@@ -356,4 +356,16 @@ label {
   transform: scale(1);
   position: relative;
   z-index: 5;
+}
+
+/* #weeklyfreq {
+  display: flex;
+  justify-content: column;
+  flex-wrap: wrap;
+} */
+
+#weeklyfreq input {
+  display: inline-block;
+  width: 3rem;
+  background-color: transparent;
 }

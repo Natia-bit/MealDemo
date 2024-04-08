@@ -19,23 +19,15 @@ function createMealsTable(mealData) {
     <td class="category">${meal.category}</td>
     <td align="center">
       <button id="editBtn"
-      type="button"
-
+      type="text"
+      value="Edit"
       aria-hidden="true"
       onclick="editMeal(this);">
       <span id="edit" class="material-symbols-outlined"> edit </span>
+      <span id="done" class="material-symbols-outlined"> done </span>
       </button>
     </td>
-    <td>
-    <td align="center">
-    <button id="doneBtn"
-    type="button"
 
-    aria-hidden="true"
-    onclick="updateMeal(this);">
-    <span id="done" class="material-symbols-outlined"> done </span>
-    </button>
-  </td>
   <td>
     <button id="deleteBtn"
       type="button"
@@ -119,38 +111,47 @@ async function deleteMeal(el) {
 
 async function editMeal(el) {
   getMealsData().then((data) => {
-    console.log("ping");
+    console.log("clicked");
+    el.querySelector("#edit").style.display = "none";
+    el.querySelector("#done").style.display = "block";
     const row = el.parentNode.parentNode.rowIndex;
-    console.log(`Index: ${row - 1} | Table row: ${row}`);
     const meal = data.at(row - 1);
-    // console.log(`ID: ${meal.id}`);
-    // console.log(`Name: ${meal.mealName} Category: ${meal.category}`);
+    console.log(meal.mealName);
 
-    document.querySelector("#editBtn").style.display = "none";
-    document.querySelector("#doneBtn").style.display = "block";
+    // const name = document.querySelector(".name");
+    // console.log(meal);
+    // const nameData = name.value;
 
-    let mealName = document.querySelector(".name");
-    console.log(`meal name ${mealName.innerHTML}`);
+    // name.innerHTML =
+    //   "<input type='text' id='nameIn" + "' value='" + name + "'>";
 
-    mealName =
-      "<input type='text' id='nameIn" + "' value='" + mealName.innerHTML + "'>";
+    // const inputValue = document.querySelector("#nameIn").value;
+    // console.log(`name Val: ${inputValue}`);
+    // document.querySelector(".name").innerHTML = inputValue;
 
-    // let mealName = document.querySelector("#name");
-    // console.log(mealName.innerHTML);
-    // let mealNameData = mealName.innerHTML;
+    // console.log(inputValue);
 
-    // mealName.innerHTML =
-    //   "<input type='text' id='nameIn" + "' value='" + mealNameData + "'>";
+    // document.querySelector("#done").style.display = "none";
+    // document.querySelector("#edit").style.display = "block";
   });
 }
 
-async function updateMeal(el) {
-  console.log("Upldate clicked");
-  const row = el.parentNode.parentNode.rowIndex;
-  alert("Done");
-  document.querySelector("#doneBtn").style.display = "none";
-  document.querySelector("#editBtn").style.display = "block";
-}
+// async function updateMeal(el) {
+//   getMealsData().then((data) => {
+//     console.log("Upldate clicked");
+//     const row = el.parentNode.parentNode.rowIndex;
+//     const meal = data.at(row - 1);
+
+//     const nameVal = document.querySelector("#nameIn").value;
+//     console.log(`name Val: ${nameVal}`);
+//     document.querySelector(".name").innerHTML = nameVal;
+
+//     document.querySelector(".done").style.display = "none";
+//     document.querySelector(".edit").style.display = "block";
+
+//     alert("Done");
+//   });
+// }
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -160,10 +161,16 @@ getMealsData().then((data) => {
   createMealsTable(data);
 
   // EDIT
-  const editBtn = document.querySelector("#editBtn");
-  editBtn.addEventListener("click", function (e) {
-    editMeal(editBtn);
-  });
+  // const editBtn = document.querySelector("#editBtn");
+  // const editBtn = document.querySelector("#editBtn");
+  // editBtn.addEventListener("click", function (e) {
+  //   editMeal(editBtn);
+  // });
+
+  // const updateBtn = document.querySelector(".done");
+  // updateBtn.addEventListener("click", function (e) {
+  //   updateMeal(updateBtn);
+  // });
 
   // DELETE
   const deleteBtn = document.querySelector("#deleteBtn");

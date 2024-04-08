@@ -30,7 +30,7 @@
         </li>
         <span class="separator">|</span>
         <li>
-          <a href="weeklyPlan.html" class="navOptions">Weekly Meal Plan</a>
+          <a href="weekly-plan.html" class="navOptions">Weekly Meal Plan</a>
         </li>
       </ul>
 
@@ -60,7 +60,47 @@
       </svg>
     </nav>
 
+    <div class="row">
+      <div class="column1">
+        <h2>Weekly Plan</h2>
+        <div id="weekyPlan"></div>
+      </div>
+      <div class="column2">
+        <div class="addNew">
+          <form action="/" method="post" id="typsPerWeek">
+            <h2>How many times would you like to have a week..</h2>
+            <ul id="weeklyfreq">
+              <li>
+                <label for="chicken"
+                  >Chicken<input type="number" name="chicken" id="chicken"
+                /></label>
+              </li>
+              <li>
+                <label for="Meat"
+                  >Meat<input type="number" name="meat" id="meat"
+                /></label>
+              </li>
+              <li>
+                <label for="Fish"
+                  >Fish<input type="number" name="fish" id="fish"
+                /></label>
+              </li>
+              <li>
+                <label for="Vegetarian"
+                  >Vegetarian<input
+                    type="number"
+                    name="vegetarian"
+                    id="vegetarian"
+                /></label>
+              </li>
+            </ul>
+            <button type="submit" id="submitBtn">Calculate</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="app.js"></script>
+    <script src="weekly.js"></script>
   </body>
 </html>

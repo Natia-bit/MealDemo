@@ -2,10 +2,7 @@ package MealDemo.rest;
 
 import ch.qos.logback.core.model.Model;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("")
@@ -27,9 +24,15 @@ public class MealPlanningWEBController {
     }
 
 
+
     @DeleteMapping("/meals")
     public String deleteMeal(int mealId){
         return "meals.html";
+    }
+
+    @PostMapping("/weekly-plan")
+    public String viewWeeklyMenu(Model theModel){
+        return "weekly-plan.html";
     }
 
 }
