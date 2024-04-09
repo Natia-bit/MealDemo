@@ -24,7 +24,7 @@
   <body>
     <nav class="navbar">
       <a href="index.html">Home</a>
-      <ul>
+      <ul class="tabs">
         <li>
           <a href="meals.html" class="navOptions">Meals</a>
         </li>
@@ -67,26 +67,26 @@
       </div>
       <div class="column2">
         <div class="addNew">
-          <form action="/" method="post" id="typsPerWeek">
-            <h2>How many times would you like to have a week..</h2>
+          <form action="/" method="post" id="typePerWeek">
+            <h2>How many times would you like to have....</h2>
             <ul id="weeklyfreq">
-              <li>
-                <label for="chicken"
+              <li class="labelWrap">
+                <label class="inlineInput" for="chicken"
                   >Chicken<input type="number" name="chicken" id="chicken"
                 /></label>
               </li>
-              <li>
-                <label for="Meat"
+              <li class="labelWrap">
+                <label class="inlineInput" for="Meat"
                   >Meat<input type="number" name="meat" id="meat"
                 /></label>
               </li>
-              <li>
-                <label for="Fish"
+              <li class="labelWrap">
+                <label class="inlineInput" for="Fish"
                   >Fish<input type="number" name="fish" id="fish"
                 /></label>
               </li>
-              <li>
-                <label for="Vegetarian"
+              <li class="labelWrap">
+                <label class="inlineInput" for="Vegetarian"
                   >Vegetarian<input
                     type="number"
                     name="vegetarian"

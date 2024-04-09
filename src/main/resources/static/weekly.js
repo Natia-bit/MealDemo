@@ -39,10 +39,9 @@ function createWeeklyTable(data) {
 
   Object.keys(orderedData).forEach((key) => {
     const value = data[key];
-    console.log(key);
     table += `
       <tr>
-      <td class="name">${capitalizeFirstLetter(key)}</td>
+      <td class="name">${capitalizeFirstLetter(key).bold()}</td>
       <td class="name">${value.mealName}</td>
       <td class="category">${value.category}</td>
     </tr>
@@ -61,11 +60,16 @@ function createWeeklyTable(data) {
 async function getWeeklyPlan() {
   try {
     const response = await axios.post("/api/weekly-plan", {});
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
   }
+}
+
+async function reloadWeeklyTable() {
+  getWeeklyPlan().then((data) => {
+    return createWeeklyTable(data);
+  });
 }
 
 getWeeklyPlan().then((data) => {
@@ -75,3 +79,48 @@ getWeeklyPlan().then((data) => {
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
+
+async function addTypesPerWeek() {
+  try {
+    const chickenInput = document.querySelector("#chicken");
+    const meatInput = document.querySelector("#meat");
+    const fishInput = document.querySelector("#fish");
+    const vegetarianInput = document.querySelector("#vegetarian");
+
+    const response = await axios.post(
+      "/api/weekly-plan",
+      {
+        Chicken: chickenInput.value,
+        Fish: fishInput.value,
+        Meat: meatInput.value,
+        Vegetarian: vegetarianInput.value,
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    // chickenInput.value = "";
+    // meatInput.value = "";
+    // fishInput.value = "";
+    // vegetarianInput.value = "";
+    console.log(`Input value for chicken: ${chickenInput.value}`);
+    console.log(`Input value for fish: ${fishInput.value}`);
+    console.log(`Input value for meat: ${meatInput.value}`);
+    console.log(`Input value for veg: ${vegetarianInput.value}`);
+    console.log("done");
+    console.log(response.data);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+const form = document.querySelector("#typePerWeek");
+const btn = document.querySelector("#submitBtn");
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  addTypesPerWeek().then((data) => {
+    return createWeeklyTable(data);
+  });
+});
