@@ -20,45 +20,51 @@
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
   </head>
   <body>
     <nav class="navbar">
-      <a href="index.html">Home</a>
-      <ul class="tabs">
+      <a href="index.html" class="iconContainer"
+        ><span class="material-symbols-outlined"> home </span> Home
+      </a>
+      <ul>
         <li>
-          <a href="meals.html" class="navOptions">Meals</a>
+          <a href="meals.html" class="iconContainer"
+            ><span class="material-symbols-outlined"> menu_book </span>Meals</a
+          >
         </li>
-        <span class="separator">|</span>
+
         <li>
-          <a href="weekly-plan.html" class="navOptions">Weekly Meal Plan</a>
+          <a href="weekly-plan.html" class="iconContainer"
+            ><span class="material-symbols-outlined"> dinner_dining </span
+            >Weekly Meal Plan</a
+          >
         </li>
       </ul>
-
-      <svg
-        xmlns="//www.w3.org/2000/svg"
-        version="1.1"
-        class="svg-filters"
-        style="display: none"
-      >
-        <defs>
-          <filter id="marker-shape">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0 0.15"
-              numOctaves="1"
-              result="warp"
-            />
-            <feDisplacementMap
-              xChannelSelector="R"
-              yChannelSelector="G"
-              scale="30"
-              in="SourceGraphic"
-              in2="warp"
-            />
-          </filter>
-        </defs>
-      </svg>
     </nav>
+
+    <div class="banner">
+      <section class="planInro">
+        <h1>Not sure what to cook?</h1>
+        <button class="sketchy">Get a random meal</button>
+
+        <i class="credit"
+          >Photo by
+          <a
+            href="https://unsplash.com/@toddquackenbush?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+            >Todd Quackenbush</a
+          >
+          on
+          <a
+            href="https://unsplash.com/photos/black-mortar-and-pestle-beside-brown-box-in-top-view-photography-x5SRhkFajrA?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+            >Unsplash</a
+          >
+        </i>
+      </section>
+    </div>
 
     <div class="row">
       <div class="column1">
@@ -72,17 +78,29 @@
             <ul id="weeklyfreq">
               <li class="labelWrap">
                 <label class="inlineInput" for="chicken"
-                  >Chicken<input type="number" name="chicken" id="chicken"
+                  >Chicken<input
+                    type="number"
+                    name="chicken"
+                    id="chicken"
+                    placeholder="2"
                 /></label>
               </li>
               <li class="labelWrap">
                 <label class="inlineInput" for="Meat"
-                  >Meat<input type="number" name="meat" id="meat"
+                  >Meat<input
+                    type="number"
+                    name="meat"
+                    id="meat"
+                    placeholder="2"
                 /></label>
               </li>
               <li class="labelWrap">
                 <label class="inlineInput" for="Fish"
-                  >Fish<input type="number" name="fish" id="fish"
+                  >Fish<input
+                    type="number"
+                    name="fish"
+                    id="fish"
+                    placeholder="1"
                 /></label>
               </li>
               <li class="labelWrap">
@@ -91,6 +109,7 @@
                     type="number"
                     name="vegetarian"
                     id="vegetarian"
+                    placeholder="2"
                 /></label>
               </li>
             </ul>
@@ -99,6 +118,27 @@
         </div>
       </div>
     </div>
+
+    <footer>
+      <ul>
+        <li>Created by Natia Natisvili</li>
+        <li>
+          <a href="https://github.com/Natia-bit/MealDemo"
+            >[
+            <img
+              src="./images/github-mark-white.png"
+              alt="GitHub"
+              class="gitImage"
+            />
+            Code link ]</a
+          >
+        </li>
+        <li>
+          <span class="material-symbols-outlined"> mail </span>
+          natia.natisvili@gmail.com
+        </li>
+      </ul>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="weekly.js"></script>

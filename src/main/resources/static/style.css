@@ -1,36 +1,19 @@
 body {
   font-family: "Quicksand", sans-serif;
-  font-optical-sizing: auto;
-
-  /* width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 50px 30px; */
-  /* background: #f3f3f3; */
+  margin: 0;
 }
 
 nav {
+  background-color: #f4f1de;
   font-size: 1.5em;
   text-decoration: none;
   display: flex;
   justify-content: space-between;
-  padding: 0.5em;
-  /* background: #14213d; */
-  position: relative;
-}
-
-nav:before {
-  content: "";
-  background-color: #ffc;
-  width: 97%;
-  height: 2em;
-  position: absolute;
-  z-index: -1;
-  filter: url(#marker-shape);
-  top: 0.1em;
-  padding: 0 0.25em;
+  padding: 0.3em;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 }
 
 .navbar > ul,
@@ -53,48 +36,117 @@ li {
   margin-left: 1rem;
 }
 
-.navbar > .separator {
-  color: black;
+.iconContainer {
+  display: flex;
+  align-items: center;
 }
 
-h2,
+.iconContainer span {
+  padding-right: 0.1rem;
+}
+
+.iconContainer::before {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.iconContainer:hover {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
 h1 {
-  font-family: "Architects Daughter", cursive;
-  font-weight: 400;
+  font-family: "Architects Daughter";
   font-style: normal;
   color: #14213d;
 }
 
 h2 {
   text-align: center;
+  color: #2f3e46;
 }
 
 .intro {
+  background-image: url("./images/ella-olsson-C1Q3qOTlegg-unsplash.jpg");
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
-  margin: 2rem 3rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 350px;
+  max-height: 600px;
+  background-attachment: fixed;
 }
 
-.intoBorder {
-  padding: 2rem;
-  display: inline-block;
-  border: 3px solid #333333;
-  border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
-  background: #ffffff;
-  position: relative;
+.mealInro {
+  background-image: url("./images/madie-hamilton-Q9yr-cvJr30-unsplash.jpg");
+  justify-content: space-evenly;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 350px;
+  max-height: 600px;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-  &::before {
-    content: "";
-    border: 2px solid #353535;
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0) scale(1.015) rotate(0.5deg);
-    border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
-  }
+.mealInro h1 {
+  color: white;
+  text-shadow: 2px 2px 3px #000;
+}
+
+.mealInro label {
+  align-content: center;
+}
+
+.mealInro #searchMeal {
+  background-color: white;
+}
+
+.planInro {
+  background-image: url("./images/todd-quackenbush-x5SRhkFajrA-unsplash.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 350px;
+  max-height: 600px;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.planInro h1 {
+  color: white;
+}
+
+.planInro .sketchy {
+  /* color: white; */
+  background-color: white;
+}
+
+.banner h1 {
+  font-size: 2em;
+  text-align: center;
+  padding-top: 120px;
+}
+
+.banner p {
+  font-size: 1.4em;
+}
+
+.credit {
+  margin-right: 1rem;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.credit,
+.credit > a {
+  text-decoration: none;
+  color: #52796f;
+  font-size: 0.8rem;
 }
 
 .mainSection {
@@ -104,20 +156,13 @@ h2 {
     min-width: 200px;
     max-width: 230px;
     padding: 80px 20px 40px;
-    /* position: relative; */
-    /* vertical-align: top; */
+    position: relative;
     margin: 10px;
     min-height: 18vh;
     text-align: left;
     box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
     transform: rotate(-6deg);
   }
-
-  /* ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  } */
 
   ul li:nth-child(even) {
     transform: rotate(4deg);
@@ -130,7 +175,8 @@ h2 {
     transform: rotate(-3deg);
     position: relative;
     top: -5px;
-    background: #ccf;
+    /* background: #ccf; */
+    background: #e2f0b7;
   }
 
   ul li:hover,
@@ -160,7 +206,7 @@ h2 {
   }
 
   .borderBox li h3 {
-    font-family: "Architects Daughter", cursive;
+    font-family: "Architects Daughter";
     font-size: 114px;
     margin: 0;
     position: absolute;
@@ -168,54 +214,53 @@ h2 {
     top: 10px;
     right: 15px;
   }
-
-  .sketchy {
-    align-self: center;
-    /* background-color: #fff; */
-    background-color: transparent;
-    background-position: 0 90%;
-    border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
-    border-style: solid;
-    border-width: 2px;
-    box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
-    box-sizing: border-box;
-    color: #41403e;
-    cursor: pointer;
-    display: inline-block;
-    font-family: "Architects Daughter", cursive;
-    font-size: 1rem;
-    line-height: 23px;
-    padding: 0.5rem;
-    transition: all 235ms ease-in-out;
-    border-bottom-left-radius: 15px 255px;
-    border-bottom-right-radius: 225px 15px;
-    border-top-left-radius: 255px 15px;
-    border-top-right-radius: 15px 225px;
-    /* user-select: none; */
-    /* -webkit-user-select: none; */
-    touch-action: manipulation;
-  }
-
-  .sketchy a {
-    text-decoration: none;
-    color: black;
-  }
-
-  .sketchy:hover {
-    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
-    transform: translate3d(0, 2px, 0);
-  }
-
-  .sketchy:focus {
-    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
-  }
 }
 
-.mealMain {
+.sketchy {
+  align-self: center;
+  background-color: transparent;
+  background-position: 0 90%;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Architects Daughter", cursive;
+  font-size: 1rem;
+  line-height: 23px;
+  padding: 0.5rem;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  touch-action: manipulation;
+}
+
+.sketchy a {
+  text-decoration: none;
+  color: black;
+}
+
+.sketchy:hover {
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
+  transform: translate3d(0, 2px, 0);
+}
+
+.sketchy:focus {
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
+}
+
+.mainMeals {
   padding-left: 3rem;
+  padding-right: 2rem;
+  margin-top: 3rem;
 }
 
-.mealMain h2 {
+.mainMeals h2 {
   text-align: left;
   /* font-family: "Architects Daughter", cursive;
   font-size: 1em; */
@@ -279,13 +324,13 @@ th {
   width: 350px;
   min-width: 250px;
   padding: 10px;
-  position: sticky;
   margin-top: 5rem;
   min-height: 18vh;
   max-height: 55vh;
   text-align: left;
   box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
   transform: rotate(-2deg);
+  position: absolute;
 }
 
 #newMealForm,
@@ -305,6 +350,7 @@ label {
   margin-bottom: 0.5rem;
 }
 
+#searchMeal,
 #mealName,
 #mealCategory {
   width: 250px;
@@ -333,7 +379,7 @@ label {
   border-top-right-radius: 15px 225px;
   touch-action: manipulation;
 }
-
+#searchMeal,
 #mealCategory,
 #mealName {
   background-color: transparent;
@@ -411,4 +457,45 @@ label {
   border-top-left-radius: 255px 15px;
   border-top-right-radius: 15px 225px;
   touch-action: manipulation;
+}
+
+footer {
+  margin-top: 4rem;
+  text-align: center;
+  font-size: small;
+  color: white;
+  background-color: #2f3e46;
+  padding: 0.8rem;
+  position: relative;
+  bottom: 0px;
+}
+
+footer ul {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+footer a {
+  font-size: small;
+  text-decoration: none;
+  color: white;
+}
+
+footer ul li,
+span {
+  display: flex;
+  align-items: center;
+  padding-right: 0.3rem;
+}
+
+.gitImage {
+  width: 15px;
+}
+
+@media (max-width: 768px) {
+  .navbar a {
+    font-size: 0px;
+  }
 }

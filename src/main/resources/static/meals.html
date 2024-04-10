@@ -23,6 +23,10 @@
     <!-- Icons /> -->
     <link
       rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link
+      rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
     />
 
@@ -33,42 +37,51 @@
   </head>
   <body>
     <nav class="navbar">
-      <a href="index.html">Home</a>
+      <a href="index.html" class="iconContainer"
+        ><span class="material-symbols-outlined"> home </span> Home
+      </a>
       <ul>
         <li>
-          <a href="meals.html" class="navOptions">Meals</a>
+          <a href="meals.html" class="iconContainer"
+            ><span class="material-symbols-outlined"> menu_book </span>Meals</a
+          >
         </li>
-        <span class="separator">|</span>
+
         <li>
-          <a href="weekly-plan.html" class="navOptions">Weekly Meal Plan</a>
+          <a href="weekly-plan.html" class="iconContainer"
+            ><span class="material-symbols-outlined"> dinner_dining </span
+            >Weekly Meal Plan</a
+          >
         </li>
       </ul>
-
-      <svg
-        xmlns="//www.w3.org/2000/svg"
-        version="1.1"
-        class="svg-filters"
-        style="display: none"
-      >
-        <defs>
-          <filter id="marker-shape">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0 0.15"
-              numOctaves="1"
-              result="warp"
-            />
-            <feDisplacementMap
-              xChannelSelector="R"
-              yChannelSelector="G"
-              scale="30"
-              in="SourceGraphic"
-              in2="warp"
-            />
-          </filter>
-        </defs>
-      </svg>
     </nav>
+
+    <div class="banner">
+      <section class="mealInro">
+        <h1>Looking for something spesific?</h1>
+        <label for="searchMeal"
+          ><input
+            type="text"
+            name="searchMeal"
+            id="searchMeal"
+            autocomplete="on"
+            placeholder="Search here"
+        /></label>
+
+        <i class="credit"
+          >Photo by
+          <a
+            href="https://unsplash.com/@mham3816?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+            >Madie Hamilton</a
+          >
+          on
+          <a
+            href="https://unsplash.com/photos/grilled-meat-on-black-pan-Q9yr-cvJr30?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+            >Unsplash</a
+          ></i
+        >
+      </section>
+    </div>
 
     <section class="mainMeals">
       <div class="row">
@@ -107,6 +120,27 @@
         </div>
       </div>
     </section>
+
+    <footer>
+      <ul>
+        <li>Created by Natia Natisvili</li>
+        <li>
+          <a href="https://github.com/Natia-bit/MealDemo"
+            >[
+            <img
+              src="./images/github-mark-white.png"
+              alt="GitHub"
+              class="gitImage"
+            />
+            Code link ]</a
+          >
+        </li>
+        <li>
+          <span class="material-symbols-outlined"> mail </span>
+          natia.natisvili@gmail.com
+        </li>
+      </ul>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="app.js"></script>
