@@ -187,3 +187,15 @@ form.addEventListener("submit", function (e) {
   e.preventDefault();
   addNewMeal().then(() => loadTable());
 });
+
+// SEARCH
+const trs = document.getElementById("dataTable").getElementsByTagName("tr");
+document.getElementById("search").onkeyup = (e) => {
+  for (const tr of trs) {
+    tr.style.display = tr.innerText
+      .toLowerCase()
+      .includes(e.target.value.toLowerCase())
+      ? ""
+      : "none";
+  }
+};

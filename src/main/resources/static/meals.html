@@ -36,112 +36,115 @@
     />
   </head>
   <body>
-    <nav class="navbar">
-      <a href="index.html" class="iconContainer"
-        ><span class="material-symbols-outlined"> home </span> Home
-      </a>
-      <ul>
-        <li>
-          <a href="meals.html" class="iconContainer"
-            ><span class="material-symbols-outlined"> menu_book </span>Meals</a
+    <div id="position">
+      <nav class="navbar">
+        <a href="index.html" class="iconContainer"
+          ><span class="material-symbols-outlined"> home </span> Home
+        </a>
+        <ul>
+          <li>
+            <a href="meals.html" class="iconContainer"
+              ><span class="material-symbols-outlined"> menu_book </span
+              >Meals</a
+            >
+          </li>
+
+          <li>
+            <a href="weekly-plan.html" class="iconContainer"
+              ><span class="material-symbols-outlined"> dinner_dining </span
+              >Weekly Meal Plan</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <div class="banner">
+        <section class="mealInro">
+          <h1>Looking for something spesific?</h1>
+          <label for="search"
+            ><input
+              type="search"
+              name="search"
+              id="search"
+              autocomplete="off"
+              placeholder="Search here"
+              onkeyup=""
+            />
+          </label>
+
+          <i class="credit"
+            >Photo by
+            <a
+              href="https://unsplash.com/@mham3816?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+              >Madie Hamilton</a
+            >
+            on
+            <a
+              href="https://unsplash.com/photos/grilled-meat-on-black-pan-Q9yr-cvJr30?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+              >Unsplash</a
+            ></i
           >
-        </li>
+        </section>
+      </div>
 
-        <li>
-          <a href="weekly-plan.html" class="iconContainer"
-            ><span class="material-symbols-outlined"> dinner_dining </span
-            >Weekly Meal Plan</a
-          >
-        </li>
-      </ul>
-    </nav>
-
-    <div class="banner">
-      <section class="mealInro">
-        <h1>Looking for something spesific?</h1>
-        <label for="searchMeal"
-          ><input
-            type="text"
-            name="searchMeal"
-            id="searchMeal"
-            autocomplete="on"
-            placeholder="Search here"
-        /></label>
-
-        <i class="credit"
-          >Photo by
-          <a
-            href="https://unsplash.com/@mham3816?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
-            >Madie Hamilton</a
-          >
-          on
-          <a
-            href="https://unsplash.com/photos/grilled-meat-on-black-pan-Q9yr-cvJr30?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
-            >Unsplash</a
-          ></i
-        >
-      </section>
-    </div>
-
-    <section class="mainMeals">
-      <div class="row">
-        <div class="column1">
-          <h2>Meal List</h2>
-          <div id="dataTable"></div>
-        </div>
-        <div class="column2">
-          <div class="addNew">
-            <form action="/api/meals" method="post" id="newMealForm">
-              <h2>New meal</h2>
-              <ul>
-                <li>
-                  <label for="mealName"
-                    >Name<input
-                      type="text"
-                      name="mealName"
-                      id="mealName"
-                      autocomplete="off"
-                  /></label>
-                </li>
-                <li>
-                  <label for="mealCategory">Category</label>
-                  <select name="mealCategory" id="mealCategory">
-                    <option value="">Choose an option</option>
-                    <option value="Chicken">Chicken</option>
-                    <option value="Fish">Fish</option>
-                    <option value="Meat">Meat</option>
-                    <option value="Vegetarian">Vegetarian</option>
-                  </select>
-                </li>
-              </ul>
-              <button type="submit" id="submitBtn">Save</button>
-            </form>
+      <section class="mainMeals">
+        <div class="row">
+          <div class="column1">
+            <h2>Meal List</h2>
+            <div id="dataTable"></div>
+          </div>
+          <div class="column2">
+            <div class="addNew">
+              <form action="/api/meals" method="post" id="newMealForm">
+                <h2>New meal</h2>
+                <ul>
+                  <li>
+                    <label for="mealName"
+                      >Name<input
+                        type="text"
+                        name="mealName"
+                        id="mealName"
+                        autocomplete="off"
+                    /></label>
+                  </li>
+                  <li>
+                    <label for="mealCategory">Category</label>
+                    <select name="mealCategory" id="mealCategory">
+                      <option value="">Choose an option</option>
+                      <option value="Chicken">Chicken</option>
+                      <option value="Fish">Fish</option>
+                      <option value="Meat">Meat</option>
+                      <option value="Vegetarian">Vegetarian</option>
+                    </select>
+                  </li>
+                </ul>
+                <button type="submit" id="submitBtn">Save</button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <footer>
-      <ul>
-        <li>Created by Natia Natisvili</li>
-        <li>
-          <a href="https://github.com/Natia-bit/MealDemo"
-            >[
-            <img
-              src="./images/github-mark-white.png"
-              alt="GitHub"
-              class="gitImage"
-            />
-            Code link ]</a
-          >
-        </li>
-        <li>
-          <span class="material-symbols-outlined"> mail </span>
-          natia.natisvili@gmail.com
-        </li>
-      </ul>
-    </footer>
-
+      <footer>
+        <ul>
+          <li>Created by Natia Natisvili</li>
+          <li>
+            <a href="https://github.com/Natia-bit/MealDemo"
+              >[
+              <img
+                src="./images/github-mark-white.png"
+                alt="GitHub"
+                class="gitImage"
+              />. Code link ]</a
+            >
+          </li>
+          <li>
+            <span class="material-symbols-outlined"> mail </span>
+            natia.natisvili@gmail.com
+          </li>
+        </ul>
+      </footer>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="app.js"></script>
   </body>
