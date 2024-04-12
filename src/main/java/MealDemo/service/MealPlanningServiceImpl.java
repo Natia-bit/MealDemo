@@ -135,4 +135,11 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         return weeklyPlan;
     }
 
+
+    public Meal randomMeal(){
+        List<Meal> allMeals = getMeals();
+        int randomIndex = randomNumberGenerator(allMeals.size());
+        return allMeals.get(randomIndex);
+    }
+
 }

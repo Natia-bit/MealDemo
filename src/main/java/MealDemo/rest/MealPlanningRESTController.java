@@ -81,7 +81,6 @@ public class MealPlanningRESTController {
     }
 
     @PostMapping("/api/weekly-plan")
-
     public Map<DaysOfTheWeek, Meal> generateWeeklyMeals(@RequestBody HashMap<String, Integer> userInput){
 
         if (!userInput.isEmpty()){
@@ -104,6 +103,11 @@ public class MealPlanningRESTController {
         }
 
         return mealPlanningServiceImpl.generateWeeklyMeals(userInput);
+    }
+
+    @GetMapping("/api/meal-random")
+    public Meal getRandomMeal(){
+        return mealPlanningServiceImpl.randomMeal();
     }
 
 }

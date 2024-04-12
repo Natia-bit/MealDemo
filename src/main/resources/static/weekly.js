@@ -57,6 +57,42 @@ function createWeeklyTable(data) {
   weeklyTable.innerHTML = table;
 }
 
+// MODAL
+
+async function getRandomMeal() {
+  try {
+    const responce = await axios.get("/api/meal-random");
+    return responce.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+const modal = document.getElementById("myModal");
+const randomMeal = document.getElementById("randomMeal");
+
+async function openModal() {
+  modal.classList.add("show");
+  getRandomMeal().then((data) => {
+    randomMeal.innerHTML = `<span style="color:red">[</span> ${data.category.bold()} <span style="color:red">]</span> ${
+      data.mealName
+    }`;
+  });
+}
+function closeModal() {
+  modal.classList.remove("show");
+}
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.classList.remove("show");
+  }
+};
+
+document.addEventListener("keyup", function (e) {
+  if (e.key === "Escape") {
+    closeModal();
+  }
+});
+
 async function getWeeklyPlan() {
   try {
     const response = await axios.post("/api/weekly-plan", {});
