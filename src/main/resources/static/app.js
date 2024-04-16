@@ -1,16 +1,16 @@
 function createMealsTable(mealData) {
   let table = '<table style="border-collapse: collapse;">';
 
-  table += `
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Category</th>
-      <th colspan="2">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-`;
+  //   table += `
+  //   <thead>
+  //     <tr>
+  //       <th>Name</th>
+  //       <th>Category</th>
+  //       <th colspan="2">Action</th>
+  //     </tr>
+  //   </thead>
+  //   <tbody>
+  // `;
 
   mealData.forEach((meal) => {
     table += `
@@ -30,7 +30,7 @@ function createMealsTable(mealData) {
       type="text"
       value="done"
       aria-hidden="true"
-      onclick="updateMeal(this);">
+      onclick="updateWithApi(this);">
       <span id="done" class="material-symbols-outlined"> done </span>
       </button>
     </td>
@@ -159,7 +159,7 @@ async function updateWithApi(el) {
   );
 
   // document.querySelector("#done").style.display = "none";
-  // document.querySelector(".edit").style.display = "block";
+  document.querySelector(".edit").style.display = "block";
 
   return response;
 }

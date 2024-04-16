@@ -265,9 +265,7 @@ h2 {
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  gap: 10px 20px; /* row-gap column gap */
-
-  /* justify-content: space-around; */
+  gap: 10px 20px;
 }
 
 .column1 {
@@ -292,26 +290,27 @@ h2 {
 
 table {
   width: 90%;
-  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
-  border-style: solid;
-  border-width: 2px;
   box-sizing: border-box;
-  color: #41403e;
+  border-bottom: 2px #41403e solid;
+  border-left: 2px #41403e solid;
+  border-right: 2px #41403e solid;
   margin-left: 2rem;
   margin-right: 2rem;
 }
 
+#tableHeader {
+  border-top: 2px #41403e solid;
+}
+
 table td,
 th {
-  border-top: 1px #41403e solid;
   border-bottom: 1px #41403e solid;
-  border-radius: 3px;
   padding: 1rem;
 }
 
-#done {
+/* #done {
   display: none;
-}
+} */
 
 .addNew {
   background: #ffc;
