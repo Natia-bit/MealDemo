@@ -58,7 +58,6 @@ function createWeeklyTable(data) {
 }
 
 // MODAL
-
 async function getRandomMeal() {
   try {
     const responce = await axios.get("/api/meal-random");
@@ -78,9 +77,11 @@ async function openModal() {
     }`;
   });
 }
+
 function closeModal() {
   modal.classList.remove("show");
 }
+
 window.onclick = function (event) {
   if (event.target == modal) {
     modal.classList.remove("show");
@@ -140,11 +141,6 @@ async function addTypesPerWeek() {
     // meatInput.value = "";
     // fishInput.value = "";
     // vegetarianInput.value = "";
-    console.log(`Input value for chicken: ${chickenInput.value}`);
-    console.log(`Input value for fish: ${fishInput.value}`);
-    console.log(`Input value for meat: ${meatInput.value}`);
-    console.log(`Input value for veg: ${vegetarianInput.value}`);
-    console.log("done");
     console.log(response.data);
     return response.data;
   } catch (e) {

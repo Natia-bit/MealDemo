@@ -24,6 +24,13 @@ function createMealsTable(mealData) {
       aria-hidden="true"
       onclick="editMeal(this);">
       <span id="edit" class="material-symbols-outlined"> edit </span>
+      </button>
+
+      <button id="doneBtn"
+      type="text"
+      value="done"
+      aria-hidden="true"
+      onclick="updateMeal(this);">
       <span id="done" class="material-symbols-outlined"> done </span>
       </button>
     </td>
@@ -113,45 +120,58 @@ async function editMeal(el) {
   getMealsData().then((data) => {
     console.log("clicked");
     el.querySelector("#edit").style.display = "none";
-    el.querySelector("#done").style.display = "block";
+    // el.querySelector("#done").style.display = "block";
     const row = el.parentNode.parentNode.rowIndex;
     const meal = data.at(row - 1);
-    console.log(meal.mealName);
 
-    // const name = document.querySelector(".name");
-    // console.log(meal);
-    // const nameData = name.value;
+    console.log(el.parentNode.parentNode);
+    const tableRow = el.parentNode.parentNode;
+    const mealNameSelector = tableRow.querySelector(".name");
+    console.log(mealNameSelector);
+    console.log(mealNameSelector.innerHTML);
 
-    // name.innerHTML =
-    //   "<input type='text' id='nameIn" + "' value='" + name + "'>";
-
-    // const inputValue = document.querySelector("#nameIn").value;
-    // console.log(`name Val: ${inputValue}`);
-    // document.querySelector(".name").innerHTML = inputValue;
-
-    // console.log(inputValue);
-
-    // document.querySelector("#done").style.display = "none";
-    // document.querySelector("#edit").style.display = "block";
+    mealNameSelector.innerHTML =
+      "<input type='text' id='nameIn" +
+      "' value='" +
+      mealNameSelector.innerHTML +
+      "'>";
   });
 }
 
-// async function updateMeal(el) {
-//   getMealsData().then((data) => {
-//     console.log("Upldate clicked");
-//     const row = el.parentNode.parentNode.rowIndex;
-//     const meal = data.at(row - 1);
+async function updateWithApi(el) {
+  const row = el.parentNode.parentNode.rowIndex;
+  const meal = data.at(row - 1);
 
-//     const nameVal = document.querySelector("#nameIn").value;
-//     console.log(`name Val: ${nameVal}`);
-//     document.querySelector(".name").innerHTML = nameVal;
+  const inputValue = tableRow.querySelector("#nameIn").value;
+  console.log(`name Val: ${inputValue}`);
+  document.querySelector(".name").innerHTML = inputValue;
+  console.log(inputValue).value;
 
-//     document.querySelector(".done").style.display = "none";
-//     document.querySelector(".edit").style.display = "block";
+  const response = await axios.put(
+    `api/meals/${meal.id}`,
+    {
+      mealName: `${capitalizeFirstLetter(inputValue)}`,
+      category: meal.category,
+    },
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 
-//     alert("Done");
-//   });
-// }
+  // document.querySelector("#done").style.display = "none";
+  // document.querySelector(".edit").style.display = "block";
+
+  return response;
+}
+
+async function updateMeal(el) {
+  try {
+    getMealsData().then((data) => updateWithApi(data));
+    alert("Done");
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -159,18 +179,6 @@ function capitalizeFirstLetter(string) {
 
 getMealsData().then((data) => {
   createMealsTable(data);
-
-  // EDIT
-  // const editBtn = document.querySelector("#editBtn");
-  // const editBtn = document.querySelector("#editBtn");
-  // editBtn.addEventListener("click", function (e) {
-  //   editMeal(editBtn);
-  // });
-
-  // const updateBtn = document.querySelector(".done");
-  // updateBtn.addEventListener("click", function (e) {
-  //   updateMeal(updateBtn);
-  // });
 
   // DELETE
   const deleteBtn = document.querySelector("#deleteBtn");

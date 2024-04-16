@@ -572,3 +572,7 @@ footer ul li,
     width: 100%;
   }
 }
+
+#doneBtn {
+  display: none;
+}
