@@ -308,9 +308,14 @@ th {
   padding: 1rem;
 }
 
-/* #done {
-  display: none;
-} */
+#weekyPlan table {
+  border-top: 2px #41403e solid;
+}
+
+.editable {
+  background-color: #ffc;
+  padding: 1rem;
+}
 
 .addNew {
   background: #ffc;
@@ -572,6 +577,10 @@ footer ul li,
   }
 }
 
-#doneBtn {
-  display: none;
+@media (min-width: 960px) {
+  .mainSection,
+  #dataTable,
+  #weekyPlan {
+    min-height: 900px;
+  }
 }

@@ -1,17 +1,6 @@
 function createMealsTable(mealData) {
   let table = '<table style="border-collapse: collapse;">';
 
-  //   table += `
-  //   <thead>
-  //     <tr>
-  //       <th>Name</th>
-  //       <th>Category</th>
-  //       <th colspan="2">Action</th>
-  //     </tr>
-  //   </thead>
-  //   <tbody>
-  // `;
-
   mealData.forEach((meal) => {
     table += `
     <tr>
@@ -19,19 +8,11 @@ function createMealsTable(mealData) {
     <td class="category">${meal.category}</td>
     <td align="center">
       <button id="editBtn"
-      type="text"
-      value="Edit"
-      aria-hidden="true"
-      onclick="editMeal(this);">
+      data-state="edit"
+      aria-label="edit button"
+      aria-live="polite"
+      onclick="updateThis(this);">
       <span id="edit" class="material-symbols-outlined"> edit </span>
-      </button>
-
-      <button id="doneBtn"
-      type="text"
-      value="done"
-      aria-hidden="true"
-      onclick="updateWithApi(this);">
-      <span id="done" class="material-symbols-outlined"> done </span>
       </button>
     </td>
 
@@ -116,60 +97,84 @@ async function deleteMeal(el) {
   }
 }
 
-async function editMeal(el) {
-  getMealsData().then((data) => {
-    console.log("clicked");
-    el.querySelector("#edit").style.display = "none";
-    // el.querySelector("#done").style.display = "block";
-    const row = el.parentNode.parentNode.rowIndex;
-    const meal = data.at(row - 1);
-
-    console.log(el.parentNode.parentNode);
-    const tableRow = el.parentNode.parentNode;
-    const mealNameSelector = tableRow.querySelector(".name");
-    console.log(mealNameSelector);
-    console.log(mealNameSelector.innerHTML);
-
-    mealNameSelector.innerHTML =
-      "<input type='text' id='nameIn" +
-      "' value='" +
-      mealNameSelector.innerHTML +
-      "'>";
-  });
-}
-
-async function updateWithApi(el) {
-  const row = el.parentNode.parentNode.rowIndex;
-  const meal = data.at(row - 1);
-
-  const inputValue = tableRow.querySelector("#nameIn").value;
-  console.log(`name Val: ${inputValue}`);
-  document.querySelector(".name").innerHTML = inputValue;
-  console.log(inputValue).value;
-
-  const response = await axios.put(
-    `api/meals/${meal.id}`,
-    {
-      mealName: `${capitalizeFirstLetter(inputValue)}`,
-      category: meal.category,
-    },
-    {
-      headers: { "Content-Type": "application/json" },
-    }
-  );
-
-  // document.querySelector("#done").style.display = "none";
-  document.querySelector(".edit").style.display = "block";
-
-  return response;
-}
-
-async function updateMeal(el) {
+// UPDATE MEAL
+async function updateThis(el) {
   try {
-    getMealsData().then((data) => updateWithApi(data));
-    alert("Done");
+    const row = el.parentNode.parentNode.rowIndex;
+    getMealsData().then((data) => {
+      const meal = data.at(row);
+      const tableRow = el.parentNode.parentNode;
+      const mealNameSelector = tableRow.querySelector(".name");
+
+      let requestObj = {
+        name: undefined,
+        newItem: undefined,
+      };
+
+      let isEditing = false;
+
+      if (el.nodeName !== "BUTTON") return;
+
+      if (!isEditing) {
+        requestObj.id = tableRow;
+        requestObj.name = mealNameSelector.innerText.trim();
+        requestObj.newItem = undefined;
+      }
+
+      if (el.dataset.state === "edit") {
+        if (isEditing) {
+          return;
+        } else {
+          isEditing = true;
+        }
+
+        // Move caret to end of string
+        const range = document.createRange();
+        const selection = document.getSelection();
+        range.selectNodeContents(mealNameSelector);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        // make field editable
+        mealNameSelector.classList.add("editable");
+        mealNameSelector.contentEditable = true;
+        mealNameSelector.focus();
+
+        el.innerHTML = `<span class="material-symbols-outlined"> done </span>`;
+        el.dataset.state = "save";
+        el.ariaLabel = "save button";
+      } else if (el.dataset.state === "save") {
+        mealNameSelector.classList.remove("editable");
+        mealNameSelector.contentEditable = false;
+
+        const response = axios.put(
+          `api/meals/${meal.id}`,
+          {
+            mealName: `${capitalizeFirstLetter(
+              mealNameSelector.innerText.trim()
+            )}`,
+            category: meal.category,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        el.innerHTML = `<span class="material-symbols-outlined"> edit </span>`;
+        el.dataset.state = "edit";
+        el.ariaLabel = "edit button";
+
+        // Allow editing again
+        isEditing = false;
+
+        return response;
+      } else {
+        console.error("editSaveBtn has invalid data-state attribute");
+      }
+    });
   } catch (e) {
-    console.log(e);
+    console.error();
   }
 }
 
