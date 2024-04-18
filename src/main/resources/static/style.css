@@ -122,7 +122,6 @@ h2 {
 }
 
 .planInro .sketchy {
-  /* color: white; */
   background-color: white;
 }
 
@@ -169,13 +168,14 @@ h2 {
     position: relative;
     top: 5px;
     background: #ffc;
+    margin-left: 2rem;
+    margin-right: 2rem;
   }
 
   ul li:nth-child(odd) {
     transform: rotate(-3deg);
     position: relative;
     top: -5px;
-    /* background: #ccf; */
     background: #e2f0b7;
   }
 
@@ -282,10 +282,10 @@ h2 {
   flex: 1;
 }
 
-#mainSection,
+.mainSection,
 #dataTable,
 #weekyPlan {
-  min-height: 600px;
+  min-height: 300px;
 }
 
 table {
@@ -577,10 +577,10 @@ footer ul li,
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1400px) {
   .mainSection,
   #dataTable,
   #weekyPlan {
-    min-height: 900px;
+    min-height: 800px;
   }
 }
