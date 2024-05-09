@@ -1,11 +1,7 @@
 # MealDemo
 My first project where I applied everything that I have leared. As this is just a prototype please not that there ~~might~~ are some bugs.
-Hosted on render.com
-DB: mysql
-Backend: Java
-Frontend: pure Javascript, HTML, CSS 
-
-Link: https://planning-dinners.onrender.com
+<br /> Hosted on render.com 
+<br />Link: https://planning-dinners.onrender.com
 
 The purpose of this service is to generate a unique weekly meal plan. The requirements and the freeqency of categories can be adjusted.  
 
