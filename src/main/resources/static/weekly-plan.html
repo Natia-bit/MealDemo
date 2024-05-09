@@ -90,6 +90,7 @@
           <h2>Weekly Plan</h2>
           <button id="refreshBtn" class="sketchy" onclick="reloadWeeklyTable()">
             <span class="material-symbols-outlined"> refresh </span>
+            <br />Default
           </button>
         </div>
 
@@ -100,31 +101,20 @@
           <form action="/" method="post" id="typePerWeek">
             <h2>How many times would you like to have....</h2>
             <ul id="weeklyfreq">
+              <h3 id="totalDays"></h3>
               <li class="labelWrap">
                 <label class="inlineInput" for="chicken"
-                  >Chicken<input
-                    type="number"
-                    name="chicken"
-                    id="chicken"
-                    placeholder="2"
+                  >Chicken<input type="number" name="chicken" id="chicken"
                 /></label>
               </li>
               <li class="labelWrap">
                 <label class="inlineInput" for="Meat"
-                  >Meat<input
-                    type="number"
-                    name="meat"
-                    id="meat"
-                    placeholder="2"
+                  >Meat<input type="number" name="meat" id="meat"
                 /></label>
               </li>
               <li class="labelWrap">
                 <label class="inlineInput" for="Fish"
-                  >Fish<input
-                    type="number"
-                    name="fish"
-                    id="fish"
-                    placeholder="1"
+                  >Fish<input type="number" name="fish" id="fish"
                 /></label>
               </li>
               <li class="labelWrap">
@@ -133,7 +123,6 @@
                     type="number"
                     name="vegetarian"
                     id="vegetarian"
-                    placeholder="2"
                 /></label>
               </li>
             </ul>

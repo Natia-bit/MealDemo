@@ -4,29 +4,28 @@ function createMealsTable(mealData) {
   mealData.forEach((meal) => {
     table += `
     <tr>
-    <td class="name">${meal.mealName}</td>
-    <td class="category">${meal.category}</td>
-    <td align="center">
-      <button id="editBtn"
-      data-state="edit"
-      aria-label="edit button"
-      aria-live="polite"
-      onclick="updateThis(this);">
-      <span id="edit" class="material-symbols-outlined"> edit </span>
-      </button>
-    </td>
+      <td class="name">${meal.mealName}</td>
+      <td class="category">${meal.category}</td>
+      <td align="center">
+        <button id="editBtn"
+        data-state="edit"
+        aria-label="edit button"
+        aria-live="polite"
+        onclick="updateThis(this);">
+        <span id="edit" class="material-symbols-outlined"> edit </span>
+        </button>
+      </td>
 
-  <td>
-    <button id="deleteBtn"
-      type="button"
-      class="close"
-      aria-hidden="true"
-      onclick="deleteMeal(this);"
-    >
-      <span class="material-symbols-outlined"> delete </span>
-    </button>
-  </td>
-  </tr>
+      <td>
+        <button id="deleteBtn"
+          type="button"
+          class="close"
+          aria-hidden="true"
+          onclick="deleteMeal(this);"
+        >
+          <span class="material-symbols-outlined"> delete </span></button>
+      </td>
+    </tr>
   `;
   });
 
@@ -80,13 +79,13 @@ async function addNewMeal() {
 }
 
 async function deleteMeal(el) {
-  if (!confirm("Are you sure you want to delete?")) return;
   try {
-    const row = el.parentNode.parentNode.rowIndex;
     getMealsData()
       .then((data) => {
-        const meal = data.at(row - 1);
-        const response = axios.delete(`/api/meals/${meal.id}`);
+        const row = el.parentNode.parentNode.rowIndex;
+        const meal = data.at(row);
+        if (!confirm(`Do you want to delete ${meal.mealName}?`)) return;
+        const response = axios.delete(`api/meals/${meal.id}`);
         return response;
       })
       .then(() => {

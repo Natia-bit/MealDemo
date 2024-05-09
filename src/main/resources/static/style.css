@@ -378,6 +378,7 @@ label {
   border-top-right-radius: 15px 225px;
   touch-action: manipulation;
 }
+
 #search,
 #mealCategory,
 #mealName {
@@ -428,6 +429,18 @@ label {
 
 .inlineInput {
   display: inline-block;
+}
+
+#totalDays {
+  font-family: "Architects Daughter";
+  font-size: 12rem;
+  text-align: left;
+  margin: 0;
+  position: absolute;
+  opacity: 0.2;
+  /* bottom: 4rem; */
+  top: 2rem;
+  right: 2rem;
 }
 
 #chicken,

@@ -148,6 +148,34 @@ async function addTypesPerWeek() {
   }
 }
 
+function findTotal() {
+  const total = document.getElementById("totalDays");
+  const chickenValue = document.querySelector("#chicken").value;
+  const meatValue = document.querySelector("#meat").value;
+  const fishValue = document.querySelector("#fish").value;
+  const vegetarianValue = document.querySelector("#vegetarian").value;
+  let sum = 0;
+
+  const inputChicken = parseInt(chickenValue) || 0;
+  const inputMeat = parseInt(meatValue) || 0;
+  const inputFish = parseInt(fishValue) || 0;
+  const inputVeg = parseInt(vegetarianValue) || 0;
+
+  sum = inputChicken + inputMeat + inputFish + inputVeg;
+
+  total.innerHTML = sum;
+
+  if (sum < 7) {
+    total.style.color = "orange";
+  } else if (sum > 7) {
+    total.style.color = "red";
+  } else {
+    total.style.color = "green";
+  }
+}
+const daysForm = document.getElementById("weeklyfreq");
+daysForm.addEventListener("input", findTotal);
+
 const form = document.querySelector("#typePerWeek");
 const btn = document.querySelector("#submitBtn");
 form.addEventListener("submit", function (e) {

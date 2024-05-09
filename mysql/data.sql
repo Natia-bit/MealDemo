@@ -1,18 +1,15 @@
---DROP TABLES
+CREATE DATABASE IF NOT EXISTS `meal-planner`;
+USE `meal-planner`;
+
 DROP TABLE IF EXISTS frequency;
 DROP TABLE IF EXISTS meals;
 
-
--- CREATE TABLES
 CREATE TABLE meals (
     id INTEGER NOT NULL AUTO_INCREMENT,
     meal_name VARCHAR(255) NOT NULL,
     category VARCHAR(80) NOT NULL,
     PRIMARY KEY (id)
-);
-
-
-
+)  ENGINE=InnoDB ;
 
 CREATE TABLE frequency (
     id INTEGER NOT NULL AUTO_INCREMENT,
@@ -22,4 +19,7 @@ CREATE TABLE frequency (
     FOREIGN KEY(meal_id) REFERENCES meals(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
-);
+)  ENGINE=InnoDB;
+
+
+

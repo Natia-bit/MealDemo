@@ -57,6 +57,8 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         if (tempMeal.isEmpty()) {
             System.out.println("Could not find meal");
         } else {
+            System.out.println("Deleting meal " + tempMeal + "with id " + mealRepository.findById(mealId));
+            frequencyRepository.deleteById(mealId);
             mealRepository.deleteById(mealId);
             System.out.println("Meal Deleted");
         }
