@@ -41,12 +41,9 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
     @Override
     public void saveNewMeal(Meal meal) {
-        System.out.println("Saving meal");
         Frequency tempFreq = new Frequency();
         tempFreq.setMeal(meal);
-
         frequencyRepository.save(tempFreq);
-
         System.out.println("meal saved! ");
     }
 
