@@ -159,8 +159,8 @@ public class MealPlanningTest {
     public void whenCallingRequestLog_ShouldMatchTheCategories(){
         HashMap<String, Integer> request = new HashMap<>();
         request.put("Chicken", 3);
-        request.put("Fish", 0);
-        request.put("Meat", 2);
+        request.put("Fish", 2);
+        request.put("Meat", 0);
         request.put("Vegetarian", 2);
 
         Map<String, List<Meal>> mealsByCategories = mealsTest.mealsByCategories();
