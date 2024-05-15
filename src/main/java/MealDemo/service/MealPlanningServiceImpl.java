@@ -4,17 +4,25 @@ import MealDemo.dao.FrequencyRepository;
 import MealDemo.dao.MealRepository;
 import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import java.time.DayOfWeek;
 
 import java.util.*;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 
 @Service
 public class MealPlanningServiceImpl implements MealPlanningService {
 
-    private MealRepository mealRepository;
-    private FrequencyRepository frequencyRepository;
+    private final MealRepository mealRepository;
+    private final FrequencyRepository frequencyRepository;
+
+
 
 
     @Autowired
@@ -35,56 +43,68 @@ public class MealPlanningServiceImpl implements MealPlanningService {
 
     @Override
     public Optional<Meal> findMealById(int mealId) {
-        return mealRepository.findById(mealId);
+        var tempMeal = mealRepository.findById(mealId);
+
+        Meal meal = null;
+        if (tempMeal.isPresent()){
+            meal = tempMeal.get();
+        } else {
+            throw new ResponseStatusException(NOT_FOUND, "Invalid meal ID");
+        }
+
+        return Optional.of(meal);
     }
 
 
     @Override
     public void saveNewMeal(Meal meal) {
-        Frequency tempFreq = new Frequency();
+        var tempFreq = new Frequency();
         tempFreq.setMeal(meal);
         frequencyRepository.save(tempFreq);
         System.out.println("meal saved! ");
     }
 
+
+    @Transactional
     @Override
     public boolean deleteMeal(int mealId) {
+        boolean isDeleted = false;
 
-        Optional<Meal> tempMeal = mealRepository.findById(mealId);
+        var tempMeal = mealRepository.findById(mealId);
         if (tempMeal.isEmpty()) {
             System.out.println("Could not find meal");
         } else {
-            System.out.println("Deleting meal " + tempMeal + "with id " + mealRepository.findById(mealId));
+            System.out.println("Deleting meal " + tempMeal.get());
             frequencyRepository.deleteById(mealId);
             mealRepository.deleteById(mealId);
             System.out.println("Meal Deleted");
+            isDeleted = true;
         }
 
-        return tempMeal.isPresent();
+        return isDeleted;
     }
 
     @Override
     public void updateMeal(int mealId, Meal meal) {
         // if cant find mealId will show 404 error cant find ID
-        Meal existingMeal = mealRepository.getById(mealId);
-
-
-        System.out.println("Recipe to edit " + existingMeal.getClass().getName() + " with id " + mealId);
-
-        existingMeal.setMealName(meal.getMealName());
-        existingMeal.setCategory(meal.getCategory());
-
-        mealRepository.save(existingMeal);
-
-        System.out.println("meal has been updated. Meal details \n" + existingMeal.toString());
+        var tempMeal = mealRepository.findById(mealId);
+        if (tempMeal.isPresent()) {
+            var existingMeal = mealRepository.getById(mealId);
+            existingMeal.setMealName(meal.getMealName());
+            existingMeal.setCategory(meal.getCategory());
+            mealRepository.save(existingMeal);
+            System.out.println("meal has been updated. Meal details \n" + existingMeal.toString());
+        } else {
+            throw new ResponseStatusException(NOT_FOUND, "Invalid meal ID");
+        }
     }
 
 
     @Override
     public Map<String, List<Meal>> mealsByCategories() {
-        List<Meal> allMeals = getMeals();
+        var allMeals = getMeals();
         Map<String, List<Meal>> mealsByCategoriesList = new HashMap<>();
-        for (Meal meal : allMeals) {
+        for (var meal : allMeals) {
             mealsByCategoriesList.computeIfAbsent(meal.getCategory(), k -> new ArrayList<>()).add(meal);
         }
 
@@ -92,28 +112,40 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     }
 
 
-    private int randomNumberGenerator(int max) {
-        Random random = new Random();
-        return random.nextInt(max);
-    }
+    public Map<DayOfWeek, Meal> generateWeeklyMeals(HashMap<String, Integer> userInput) {
 
+        if (!userInput.isEmpty()){
+            System.out.println("Using custom values");
+            int sumRequest = 0;
+            for (int requestNumber : userInput.values()){
+                sumRequest += requestNumber;
+            }
 
-    @Override
-    // generate 7 random unique meals per each day
-    public Map<DaysOfTheWeek, Meal> generateWeeklyMeals(HashMap<String, Integer> userInput) {
-        HashMap<DaysOfTheWeek, Meal> weeklyPlan = new HashMap<>();
+            if (sumRequest != 7){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Request: incorrect number of meals requested. You should request 7 meals. One for each day of the week.");
+            }
+        } else {
+            System.out.println("Using default values");
+            userInput.put("Chicken", 2);
+            userInput.put("Fish", 2);
+            userInput.put("Meat", 2);
+            userInput.put("Vegetarian", 1);
+        }
+
+        HashMap<DayOfWeek, Meal> weeklyPlan = new HashMap<>();
         Map<String, List<Meal>> mealsByCategories = mealsByCategories();
         HashMap<String, Integer> request = new HashMap<>(userInput);
+        Random random = new Random();
 
-        String[] categories = request.keySet().toArray(new String[request.size()]);
+        request.values().removeIf(freq -> freq==0);
+        String[] categories = request.keySet().toArray(new String[0]);
 
-        for (DaysOfTheWeek day : DaysOfTheWeek.values()) {
-            String randomCategory = categories[new Random().nextInt(categories.length)];
-            int requestNumber = request.get(randomCategory);
+        for (DayOfWeek day : DayOfWeek.values()) {
+            var randomCategory = categories[new Random().nextInt(categories.length)];
+            var requestNumber = request.get(randomCategory);
 
-            List<Meal> meals = mealsByCategories.get(randomCategory);
-
-            Meal randomMeal = meals.get(randomNumberGenerator(meals.size()));
+            var meals = mealsByCategories.get(randomCategory);
+            var randomMeal = meals.get(random.nextInt(meals.size()));
             weeklyPlan.putIfAbsent(day, randomMeal);
             requestNumber --;
 
@@ -121,23 +153,21 @@ public class MealPlanningServiceImpl implements MealPlanningService {
                 meals.remove(randomMeal);
             }
 
-
             if (requestNumber == 0) {
                 request.remove(randomCategory);
-                categories = request.keySet().toArray(new String[request.size()]);
+                categories = request.keySet().toArray(new String[0]);
             } else {
                 request.replace(randomCategory, requestNumber);
             }
         }
 
-
         return weeklyPlan;
     }
 
-
     public Meal randomMeal(){
-        List<Meal> allMeals = getMeals();
-        int randomIndex = randomNumberGenerator(allMeals.size());
+        Random random = new Random();
+        var allMeals = getMeals();
+        int randomIndex = random.nextInt(allMeals.size());
         return allMeals.get(randomIndex);
     }
 

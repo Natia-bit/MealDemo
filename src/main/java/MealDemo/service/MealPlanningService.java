@@ -3,6 +3,7 @@ package MealDemo.service;
 import MealDemo.entity.Frequency;
 import MealDemo.entity.Meal;
 
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +24,8 @@ public interface MealPlanningService {
 
     Map<String, List<Meal>> mealsByCategories();
 
-    Map<DaysOfTheWeek, Meal> generateWeeklyMeals(HashMap<String, Integer> userInput);
+    Map<DayOfWeek, Meal> generateWeeklyMeals(HashMap<String, Integer> userInput);
 
-//    Map<String, Integer> requestLog(HashMap<String, Integer> userInput);
 
 
 

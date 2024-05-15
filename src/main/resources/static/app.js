@@ -148,7 +148,7 @@ async function updateThis(el) {
         mealNameSelector.contentEditable = false;
 
         const response = axios.put(
-          `api/meals/${meal.id}`,
+          `/api/meals/${meal.id}`,
           {
             mealName: `${capitalizeFirstLetter(
               mealNameSelector.innerText.trim()

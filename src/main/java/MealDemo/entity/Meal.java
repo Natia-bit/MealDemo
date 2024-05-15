@@ -10,7 +10,7 @@ public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private long id;
 
     @Column(name="meal_name")
     private String mealName;
@@ -28,7 +28,7 @@ public class Meal {
     }
 
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

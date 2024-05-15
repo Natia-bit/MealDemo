@@ -11,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
+import java.time.DayOfWeek;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -178,7 +182,7 @@ public class MealPlanningTest {
     @Test
     public void whenGeneratingWeeklyMealsWithEmptyRequest_ShouldReturnSevenMeals(){
         HashMap<String, Integer> request = new HashMap<>();
-        Map<DaysOfTheWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
+        Map<DayOfWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
 
         assertEquals(weeklyPlan.size(), 7);
     }
@@ -186,11 +190,29 @@ public class MealPlanningTest {
     @Test
     public void whenGeneratingWeeklyPlan_ShouldReturnAllUniqueMeals(){
         HashMap<String, Integer> request = new HashMap<>();
-        Map<DaysOfTheWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
+        Map<DayOfWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
 
         int uniqueCount = (int) weeklyPlan.values().stream().distinct().count();
 
         assertEquals(uniqueCount, 7);
     }
 
+
+    @Test
+    public void whenGenerateWeeklyPlanWithZero_ShouldReturnWithoutThatCategory(){
+        HashMap<String, Integer> request = new HashMap<>();
+        request.put("Chicken", 3);
+        request.put("Fish", 2);
+        request.put("Meat", 2);
+        request.put("Vegetarian", 0);
+
+        Map<DayOfWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
+        System.out.println(weeklyPlan);
+
+        Map<String, List<Meal>> mealsByCategories = mealsTest.mealsByCategories();
+
+
+        assertEquals(mealsByCategories.keySet(), request.keySet());
+
+    }
 }

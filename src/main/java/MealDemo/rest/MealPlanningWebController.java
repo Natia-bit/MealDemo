@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("")
-public class MealPlanningWEBController {
+public class MealPlanningWebController {
 
     @GetMapping("/")
     public String viewHomePage(Model theModel){
