@@ -10,12 +10,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,6 +53,11 @@ public class MealPlanningTest {
         mealsTest.saveNewMeal(new Meal("Smoky chorizo salmon", "Fish"));
         mealsTest.saveNewMeal(new Meal("Gnocchi & tomato bake", "Vegetarian"));
 
+        mealsTest.saveNewMeal(new Meal("Chicken fried rice ", "Chicken"));
+        mealsTest.saveNewMeal(new Meal("Beef stew", "Meat"));
+        mealsTest.saveNewMeal(new Meal("Sushi", "Fish"));
+        mealsTest.saveNewMeal(new Meal("Mushroom quesadillas", "Vegetarian"));
+
     }
 
     @After
@@ -83,6 +88,7 @@ public class MealPlanningTest {
                          mealsTest.findMealById(1).get().getMealName());
         }
 
+
         if (mealsTest.findMealById(2).isPresent()){
             assertEquals(mealsTest.getMeals().get(1).getMealName(),
                          mealsTest.findMealById(2).get().getMealName());
@@ -96,26 +102,34 @@ public class MealPlanningTest {
 
     @Test
     public void whenUpdatingMealName_ShouldReturnNewName(){
-        Meal newMealDetails = new Meal("Updated name", "Updated category");
+        Meal newMealDetails = new Meal("New name", "New category");
+        var existingMeal = mealsTest.findMealById(11);
 
-        if (mealsTest.findMealById(1).isPresent()){
-            mealsTest.updateMeal(1, newMealDetails);
-            assertEquals(mealsTest.getMeals().get(0).getMealName(), "Updated name");
-            assertNotEquals(mealsTest.getMeals().get(0).getMealName(), "Beef Burger");
-            assertEquals(mealsTest.getMeals().size(), 4);
+        if (existingMeal.isPresent()){
+            mealsTest.updateMeal(11, newMealDetails);
+            assertEquals(mealsTest.getMeals().get(10).getMealName(), "New name");
+            assertNotEquals(mealsTest.getMeals().get(10).getMealName(), "Smoky chorizo salmon");
+            assertEquals(mealsTest.getMeals().size(), 16);
         }
     }
 
 
     @Test
-    public void whenDeletingMealWithId_ShouldReturnEmpty(){
-        mealsTest.deleteMeal(1);
-        assertEquals(mealsTest.findMealById(1), Optional.empty());
+    public void whenDeletingMealWithId_ShouldRemoveMeal(){
 
-        mealsTest.deleteMeal(2);
-        assertEquals(mealsTest.findMealById(2), Optional.empty());
+        mealsTest.deleteMeal(7);
+        assertThrowsExactly(ResponseStatusException.class, () -> mealsTest.findMealById(7));
+        assertEquals(mealsTest.getMeals().size(), 15);
 
-        assertEquals(mealsTest.getMeals().get(0).getMealName(), "Chicken pie");
+        mealsTest.deleteMeal(12);
+        assertThrowsExactly(ResponseStatusException.class, () -> mealsTest.findMealById(12));
+        assertEquals(mealsTest.getMeals().size(), 14);
+
+
+        assertTrue(mealsTest.deleteMeal(16));
+        assertThrowsExactly(ResponseStatusException.class, () -> mealsTest.findMealById(16));
+        assertEquals(mealsTest.getMeals().size(), 13);
+
     }
 
 
@@ -197,4 +211,80 @@ public class MealPlanningTest {
         assertEquals(uniqueCount, 7);
     }
 
+    @Test
+    public void whenGenerateWeeklyPlanWithZeroVeg_ShouldReturnWithoutThatCategory(){
+        HashMap<String, Integer> request = new HashMap<>();
+        request.put("Chicken", 3);
+        request.put("Fish", 2);
+        request.put("Meat", 2);
+        request.put("Vegetarian", 0);
+
+        Map<DayOfWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
+
+        for (var meal : weeklyPlan.values()){
+            assertNotEquals(meal.getCategory(), "Vegetarian");
+        }
+    }
+
+    @Test
+    public void whenGenerateWeeklyPlanWithZeroChicken_ShouldReturnWithoutThatCategory(){
+        HashMap<String, Integer> request = new HashMap<>();
+        request.put("Chicken", 0);
+        request.put("Fish", 2);
+        request.put("Meat", 2);
+        request.put("Vegetarian", 3);
+
+        Map<DayOfWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
+
+        for (var meal : weeklyPlan.values()){
+            assertNotEquals(meal.getCategory(), "Chicken");
+        }
+    }
+
+    @Test
+    public void whenGenerateWeeklyPlanWithZeroFish_ShouldReturnWithoutThatCategory(){
+        HashMap<String, Integer> request = new HashMap<>();
+        request.put("Chicken", 2);
+        request.put("Fish", 0);
+        request.put("Meat", 2);
+        request.put("Vegetarian", 3);
+
+        Map<DayOfWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
+
+        for (var meal : weeklyPlan.values()){
+            assertNotEquals(meal.getCategory(), "Fish");
+        }
+    }
+
+    @Test
+    public void whenGenerateWeeklyPlanWithZeroMeat_ShouldReturnWithoutThatCategory(){
+        HashMap<String, Integer> request = new HashMap<>();
+        request.put("Chicken", 2);
+        request.put("Fish", 2);
+        request.put("Meat", 0);
+        request.put("Vegetarian", 3);
+
+        Map<DayOfWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
+
+        for (var meal : weeklyPlan.values()){
+            assertNotEquals(meal.getCategory(), "Meat");
+        }
+    }
+
+
+    @Test
+    public void whenGenerateWeeklyPlanWithZeroFishAndVeg_ShouldReturnWithoutThatCategories(){
+        HashMap<String, Integer> request = new HashMap<>();
+        request.put("Chicken", 3);
+        request.put("Fish", 0);
+        request.put("Meat", 4);
+        request.put("Vegetarian", 0);
+
+        Map<DayOfWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
+
+        for (var meal : weeklyPlan.values()){
+            assertNotEquals(meal.getCategory(), "Fish");
+            assertNotEquals(meal.getCategory(), "Vegetarian");
+        }
+    }
 }

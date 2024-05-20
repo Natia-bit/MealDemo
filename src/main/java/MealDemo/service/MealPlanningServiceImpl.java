@@ -137,6 +137,8 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         HashMap<String, Integer> request = new HashMap<>(userInput);
         Random random = new Random();
 
+        request.values().removeIf(occurrence -> occurrence==0);
+
         String[] categories = request.keySet().toArray(new String[0]);
 
         for (DayOfWeek day : DayOfWeek.values()) {
