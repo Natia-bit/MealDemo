@@ -68,7 +68,7 @@ public class MealPlanningServiceImpl implements MealPlanningService {
     @Transactional
     @Override
     public boolean deleteMeal(int mealId) {
-        boolean isDeleted = false;
+        var isDeleted = false;
 
         var tempMeal = mealRepository.findById(mealId);
         if (tempMeal.isEmpty()) {
@@ -89,7 +89,7 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         // if cant find mealId will show 404 error cant find ID
         var tempMeal = mealRepository.findById(mealId);
         if (tempMeal.isPresent()) {
-            var existingMeal = mealRepository.getById(mealId);
+            var existingMeal = tempMeal.get();
             existingMeal.setMealName(meal.getMealName());
             existingMeal.setCategory(meal.getCategory());
             mealRepository.save(existingMeal);
@@ -137,7 +137,6 @@ public class MealPlanningServiceImpl implements MealPlanningService {
         HashMap<String, Integer> request = new HashMap<>(userInput);
         Random random = new Random();
 
-        request.values().removeIf(freq -> freq==0);
         String[] categories = request.keySet().toArray(new String[0]);
 
         for (DayOfWeek day : DayOfWeek.values()) {

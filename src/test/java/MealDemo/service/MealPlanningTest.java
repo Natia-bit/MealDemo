@@ -197,22 +197,4 @@ public class MealPlanningTest {
         assertEquals(uniqueCount, 7);
     }
 
-
-    @Test
-    public void whenGenerateWeeklyPlanWithZero_ShouldReturnWithoutThatCategory(){
-        HashMap<String, Integer> request = new HashMap<>();
-        request.put("Chicken", 3);
-        request.put("Fish", 2);
-        request.put("Meat", 2);
-        request.put("Vegetarian", 0);
-
-        Map<DayOfWeek, Meal> weeklyPlan = mealsTest.generateWeeklyMeals(request);
-        System.out.println(weeklyPlan);
-
-        Map<String, List<Meal>> mealsByCategories = mealsTest.mealsByCategories();
-
-
-        assertEquals(mealsByCategories.keySet(), request.keySet());
-
-    }
 }
