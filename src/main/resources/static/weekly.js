@@ -1,16 +1,16 @@
 function createWeeklyTable(data) {
   let table = '<table style="border-collapse: collapse;">';
 
-  table += `
-    <thead>
-      <tr>
-        <th>Day</th>
-        <th>Name</th>
-        <th>Category</th>
-      </tr>
-    </thead>
-    <tbody>
-  `;
+  // table += `
+  //   <thead>
+  //     <tr>
+  //       <th>Day</th>
+  //       <th>Name</th>
+  //       <th>Category</th>
+  //     </tr>
+  //   </thead>
+  //   <tbody>
+  // `;
 
   const sorter = {
     monday: 1,
@@ -124,6 +124,20 @@ async function addTypesPerWeek() {
     const fishInput = document.querySelector("#fish");
     const vegetarianInput = document.querySelector("#vegetarian");
 
+    // check for empty input
+    if (chickenInput.value == "") {
+      chickenInput.value = 0;
+    }
+    if (meatInput.value == "") {
+      meatInput.value = 0;
+    }
+    if (fishInput.value == "") {
+      fishInput.value = 0;
+    }
+    if (vegetarianInput.value == "") {
+      vegetarianInput.value = 0;
+    }
+
     const response = await axios.post(
       "/api/weekly-plan",
       {
@@ -141,7 +155,6 @@ async function addTypesPerWeek() {
     // meatInput.value = "";
     // fishInput.value = "";
     // vegetarianInput.value = "";
-    console.log(response.data);
     return response.data;
   } catch (e) {
     console.log(e);
