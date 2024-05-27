@@ -1,17 +1,6 @@
 function createWeeklyTable(data) {
   let table = '<table style="border-collapse: collapse;">';
 
-  // table += `
-  //   <thead>
-  //     <tr>
-  //       <th>Day</th>
-  //       <th>Name</th>
-  //       <th>Category</th>
-  //     </tr>
-  //   </thead>
-  //   <tbody>
-  // `;
-
   const sorter = {
     monday: 1,
     tuesday: 2,
@@ -60,8 +49,8 @@ function createWeeklyTable(data) {
 // MODAL
 async function getRandomMeal() {
   try {
-    const responce = await axios.get("/api/meal-random");
-    return responce.data;
+    const response = await axios.get("/api/meal-random");
+    return response.data;
   } catch (e) {
     console.log(e);
   }
@@ -151,10 +140,6 @@ async function addTypesPerWeek() {
       }
     );
 
-    // chickenInput.value = "";
-    // meatInput.value = "";
-    // fishInput.value = "";
-    // vegetarianInput.value = "";
     return response.data;
   } catch (e) {
     console.log(e);
