@@ -77,7 +77,7 @@ h2 {
   background-attachment: fixed;
 }
 
-.mealInro {
+.mealIntro {
   background-image: url("./images/madie-hamilton-Q9yr-cvJr30-unsplash.jpg");
   justify-content: space-evenly;
   background-size: cover;
@@ -91,20 +91,20 @@ h2 {
   justify-content: center;
 }
 
-.mealInro h1 {
+.mealIntro h1 {
   color: white;
   text-shadow: 2px 2px 3px #000;
 }
 
-.mealInro label {
+.mealIntro label {
   align-content: center;
 }
 
-.mealInro #search {
+.mealIntro #search {
   background-color: white;
 }
 
-.planInro {
+.planIntro {
   background-image: url("./images/todd-quackenbush-x5SRhkFajrA-unsplash.jpg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -117,11 +117,11 @@ h2 {
   justify-content: space-evenly;
 }
 
-.planInro h1 {
+.planIntro h1 {
   color: white;
 }
 
-.planInro .sketchy {
+.planIntro .sketchy {
   background-color: white;
 }
 
